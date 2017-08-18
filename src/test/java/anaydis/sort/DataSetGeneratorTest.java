@@ -9,11 +9,10 @@ import anaydis.sort.data.StringDataSetGenerator;
 public class DataSetGeneratorTest extends AbstractDataSetGeneratorTest {
 
     @Override protected DataSetGenerator<String> createStringDataSetGenerator() {
-
         return new StringDataSetGenerator();
     }
 
     @Override protected DataSetGenerator<Integer> createIntegerDataSetGenerator() {
-        throw new IllegalStateException("To be implemented!");
+        return new IntegerDataSetGenerator();
     }
 }

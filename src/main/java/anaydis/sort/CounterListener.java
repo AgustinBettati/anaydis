@@ -6,7 +6,7 @@ import anaydis.sort.gui.SorterListener;
  * @author Agustin Bettati
  * @version 1.0
  */
-public class Counter implements SorterListener {
+public class CounterListener implements SorterListener {
 
     @Override
     public void box(int from, int to) {

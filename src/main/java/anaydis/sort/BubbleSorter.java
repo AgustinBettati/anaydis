@@ -18,7 +18,18 @@ public class BubbleSorter extends AbstractSorter{
 
     @Override
     public <T> void sort(@NotNull Comparator<T> comparator, @NotNull List<T> list) {
+        final int n = list.size();
 
+        for (int i = 0; i < (n-1); i++) {
+            boolean swapWasMade = false;
+            for (int j = 0; j < (n - 1) - i; j++) {
+                if(greater(list.get(j), list.get(j + 1), comparator)){
+                    swap(j, j + 1, list);
+                    swapWasMade = true;
+                }
+            }
+            if(!swapWasMade) return;
+        }
 
     }
 }

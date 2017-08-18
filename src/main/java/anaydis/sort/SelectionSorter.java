@@ -17,13 +17,17 @@ public class SelectionSorter extends AbstractSorter{
 
     @Override
     public <T> void sort(@NotNull Comparator<T> comparator, @NotNull List<T> list) {
-        for (int i = 0; i < list.size(); i++) {
+        final int n = list.size();
+        for (int i = 0; i < n; i++) {
             int min = i;
-            for (int j = i+1; j < list.size(); j++) {
+            for (int j = i+1; j < n; j++) {
                 final T a = list.get(min);
                 final T b = list.get(j);
-
+                if(greater(a,b,comparator)){
+                    min = j;
+                }
             }
+            swap(i,min,list);
         }
     }
 }
