@@ -21,13 +21,13 @@ public class SelectionSorter extends AbstractSorter{
         for (int i = 0; i < n; i++) {
             int min = i;
             for (int j = i+1; j < n; j++) {
-                final T a = list.get(min);
-                final T b = list.get(j);
-                if(greater(a,b,comparator)){
+                if(greater(min,j,list,comparator)){
                     min = j;
                 }
             }
-            swap(i,min,list);
+            if(i != min) {
+                swap(i, min, list);
+            }
         }
     }
 }

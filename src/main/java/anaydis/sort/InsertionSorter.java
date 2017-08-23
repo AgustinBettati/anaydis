@@ -21,7 +21,7 @@ public class InsertionSorter extends AbstractSorter {
 
         for (int i = 1; i < n; i++) {
             int j = i;
-            while(j > 0 && greater(list.get(j-1),list.get(j),comparator) ){
+            while(j > 0 && greater(j-1,j,list,comparator) ){
                 //Implementation can be optimized using moves and declaring a variable
                 swap(j-1,j,list);
                 j--;

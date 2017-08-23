@@ -39,13 +39,15 @@ abstract class AbstractSorter implements ObservableSorter {
     }
 
 
-    //aca se pueden implementar los metodos de swap y greater.
-    // para desp llamarlos a listeners
-    public <T> boolean greater(@NotNull T v, @NotNull T w, @NotNull Comparator<T> comp) {
-        return comp.compare(v,w) > 0;
+    public <T> boolean greater(int i, int j,@NotNull List<T> list, @NotNull Comparator<T> comp) {
+        listeners.forEach(listener -> listener.greater(i,j));
+
+        return comp.compare(list.get(i), list.get(j)) > 0;
     }
 
     public <T> void swap(int i, int j, @NotNull List<T> list) {
+        listeners.forEach(listener -> listener.swap(i,j));
+
         T t = list.get(i);
         list.set(i, list.get(j));
         list.set(j, t);

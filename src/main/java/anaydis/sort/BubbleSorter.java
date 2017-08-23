@@ -23,7 +23,7 @@ public class BubbleSorter extends AbstractSorter{
         for (int i = 0; i < (n-1); i++) {
             boolean swapWasMade = false;
             for (int j = 0; j < (n - 1) - i; j++) {
-                if(greater(list.get(j), list.get(j + 1), comparator)){
+                if(greater(j, j + 1, list, comparator)){
                     swap(j, j + 1, list);
                     swapWasMade = true;
                 }

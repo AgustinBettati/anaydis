@@ -39,7 +39,7 @@ public class IntegerDataSetGenerator implements DataSetGenerator<Integer> {
     @Override
     public List<Integer> createRandom(int length) {
         List<Integer> randomList = new ArrayList<>();
-        Random random = new Random(1);
+        Random random = new Random(10);
         for (int i = 0; i < length; i++) {
             randomList.add(random.nextInt());
         }
