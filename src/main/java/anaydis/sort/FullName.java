@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
  * @author Agustin Bettati
  * @version 1.0
  */
-public class FullName implements Comparable<FullName>{
+public class FullName{
 
 
 
@@ -29,10 +29,5 @@ public class FullName implements Comparable<FullName>{
         return lastname + ", " + firstname;
     }
 
-    @Override
-    public int compareTo(@NotNull FullName o) {
-        return lastname.compareTo(o.lastname) != 0 ?
-                lastname.compareTo(o.lastname) : firstname.compareTo(o.firstname) != 0 ?
-                                                    firstname.compareTo(o.firstname) : 0;
-    }
+
 }

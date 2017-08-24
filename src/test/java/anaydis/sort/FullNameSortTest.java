@@ -3,7 +3,6 @@ package anaydis.sort;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -25,7 +24,8 @@ public class FullNameSortTest {
         list.add(new FullName("Bernardo","Bettati"));
 
         Sorter sorter = new InsertionSorter();
-        sorter.sort(Comparator.naturalOrder(), list);
+        sorter.sort(new FirstNameComparator(), list);
+        sorter.sort(new LastNameComparator(), list);
 
         assertThat(list.get(0)).isEqualToComparingFieldByField(new FullName("Agustin","Bettati"));
         assertThat(list.get(1)).isEqualToComparingFieldByField(new FullName("Bernardo","Bettati"));
