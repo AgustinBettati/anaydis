@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public class FullName implements Comparable<FullName>{
 
+
+
     private String firstname;
     private String lastname;
 
@@ -29,8 +31,8 @@ public class FullName implements Comparable<FullName>{
 
     @Override
     public int compareTo(@NotNull FullName o) {
-        return firstname.compareTo(o.firstname) != 0 ?
-                firstname.compareTo(o.firstname) : lastname.compareTo(o.lastname) != 0 ?
-                                                    lastname.compareTo(o.lastname) : 0;
+        return lastname.compareTo(o.lastname) != 0 ?
+                lastname.compareTo(o.lastname) : firstname.compareTo(o.firstname) != 0 ?
+                                                    firstname.compareTo(o.firstname) : 0;
     }
 }

@@ -10,6 +10,7 @@ public class SelectionSorterTest extends SorterTest {
 
     @Test
     public void testSelectionSort(){
+
         testSorter(createIntegerDataSetGenerator(), SorterType.SELECTION, 50);
     }
 }

@@ -12,4 +12,9 @@ public class InsertionSorterTest extends SorterTest{
     public void testInsertionSort(){
         testSorter(createIntegerDataSetGenerator(), SorterType.INSERTION, 50);
     }
+
+    @Test
+    public void testInsertionSortString(){
+        testSorter(createStringDataSetGenerator(), SorterType.INSERTION, 50);
+    }
 }
