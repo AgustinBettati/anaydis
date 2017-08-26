@@ -24,7 +24,7 @@ abstract class AbstractSorter implements ObservableSorter {
 
     @NotNull
     @Override
-    public SorterType getType() {
+    public final SorterType getType() {
         return type;
     }
 

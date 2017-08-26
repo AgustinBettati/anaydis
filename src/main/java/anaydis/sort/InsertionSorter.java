@@ -1,5 +1,7 @@
 package anaydis.sort;
 
+import anaydis.sort.AbstractSorter;
+import anaydis.sort.SorterType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;

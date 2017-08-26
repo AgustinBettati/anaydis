@@ -10,11 +10,11 @@ import java.util.Map;
  * @author Agustin Bettati
  * @version 1.0
  */
-public class SorterMap implements SorterProvider {
+public class SorterProviderImpl implements SorterProvider {
 
     private final Map<SorterType, Sorter> sorters;
 
-    public SorterMap() {
+    public SorterProviderImpl() {
         this.sorters = new EnumMap<SorterType, Sorter>(SorterType.class);
         sorters.put(SorterType.SELECTION, new SelectionSorter());
         sorters.put(SorterType.INSERTION, new InsertionSorter());

@@ -21,6 +21,6 @@ abstract class SorterTest extends AbstractSorterTest {
 
     @Override
     protected SorterProvider getSorterProvider() {
-        return new SorterMap();
+        return new SorterProviderImpl();
     }
 }

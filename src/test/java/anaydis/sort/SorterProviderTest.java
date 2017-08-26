@@ -8,6 +8,6 @@ import anaydis.sort.provider.SorterProvider;
 public class SorterProviderTest extends AbstractSorterProviderTest {
 
     @Override protected SorterProvider createSorterProvider() {
-        return new SorterMap();
+        return new SorterProviderImpl();
     }
 }
