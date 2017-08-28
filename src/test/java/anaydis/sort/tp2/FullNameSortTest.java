@@ -26,12 +26,7 @@ public class FullNameSortTest {
 
         Sorter sorter = new InsertionSorter();
         sorter.sort(new FirstNameComparator(), list);
-        list.forEach(name -> System.out.println(name));
         sorter.sort(new LastNameComparator(), list);
-
-        System.out.println();
-        list.forEach(name -> System.out.println(name));
-
 
         assertThat(list.get(0)).isEqualToComparingFieldByField(new FullName("Agustin","Bettati"));
         assertThat(list.get(1)).isEqualToComparingFieldByField(new FullName("Bernardo","Bettati"));
