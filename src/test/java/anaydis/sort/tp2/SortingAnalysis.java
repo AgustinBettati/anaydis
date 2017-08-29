@@ -2,9 +2,6 @@ package anaydis.sort.tp2;
 
 import anaydis.sort.*;
 import anaydis.sort.tp2.StatisticDataGenerator.*;
-import anaydis.sort.data.DataSetGenerator;
-import anaydis.sort.gui.ObservableSorter;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -32,17 +29,16 @@ public class SortingAnalysis {
             System.out.println("SORTER = " + sorterType);
 //            for (StatisticDataGenerator.Ordering ordering : Ordering.values()) {
 //                System.out.println("\tORDERING = " + ordering);
-                final SuperCell[] schemas = cube.schemas(Ordering.RANDOM);
+                final Cell[] schemas = cube.schemas(Ordering.RANDOM);
                 for (final Schema schema : Schema.values()) {
                     System.out.println("\t\tn = " + schema.value());
-                    final SuperCell superCell = schemas[schema.ordinal()];
+                    final Cell cell = schemas[schema.ordinal()];
                     for (DataUnit unit : DataUnit.values()) {
                        // System.out.println("\t\t\tUNIT = " + unit);
-                        final Cell cell = superCell.getCell(unit);
+                        final DataSet dataSet = cell.getSetOfData(unit);
                         final LongSummaryStatistics statistics =
-                                cell.getData().stream().collect(Collectors.summarizingLong(value -> value));
-                        System.out.print("\t\t\t\t "+ unit + " -> ");
-                        System.out.printf("%.0f\n", statistics.getAverage());
+                                dataSet.getData().stream().collect(Collectors.summarizingLong(value -> value));
+                        System.out.print("\t\t\t\t "+ unit + " -> " + statistics + "\n");
                     }
                 }
             //}

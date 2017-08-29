@@ -40,14 +40,14 @@ public class CSVGenerator {
                 try{
                 fw.write("\nSORTER: " + sorterType + "\n");
                 fw.write("n,time,swaps,comparisons\n");
-                final SuperCell[] schemas = cube.schemas(ordering);
+                final Cell[] schemas = cube.schemas(ordering);
                 for (final Schema schema : Schema.values()) {
                     fw.write(""+schema.value());
-                    final SuperCell superCell = schemas[schema.ordinal()];
+                    final Cell cell = schemas[schema.ordinal()];
                     for (DataUnit unit : DataUnit.values()) {
-                        final Cell cell = superCell.getCell(unit);
+                        final DataSet dataSet = cell.getSetOfData(unit);
                         final LongSummaryStatistics statistics =
-                                cell.getData().stream().collect(Collectors.summarizingLong(value -> value));
+                                dataSet.getData().stream().collect(Collectors.summarizingLong(value -> value));
                         fw.write("," + String.format("%.0f", statistics.getAverage()) );
                     }
                     fw.write("\n");

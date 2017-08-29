@@ -22,7 +22,6 @@ public class StatisticDataGenerator {
         TIME,
         SWAPS,
         COMPARISONS
-
     }
 
     public enum Schema {
@@ -67,53 +66,48 @@ public class StatisticDataGenerator {
         abstract <T> List<T> create(@NotNull DataSetGenerator<T> generator, Schema schema);
     }
 
-
     public class Cube {
-        private final SuperCell[][] data = new SuperCell[Ordering.values().length][Schema.values().length];
+        private final Cell[][] data = new Cell[Ordering.values().length][Schema.values().length];
 
         Cube() {
             for (int i = 0; i < Ordering.values().length; i++) {
                 for (int j = 0; j < Schema.values().length; j++) {
-                    data[i][j] = new SuperCell();
+                    data[i][j] = new Cell();
                 }
             }
         }
 
         void submit(final Schema schema, final Ordering ordering, final AnalysisListener listener) {
-            final SuperCell cell = data[ordering.ordinal()][schema.ordinal()];
+            final Cell cell = data[ordering.ordinal()][schema.ordinal()];
             cell.submit(listener);
         }
 
-        public SuperCell[] schemas(Ordering ordering) {
+        public Cell[] schemas(Ordering ordering) {
             return data[ordering.ordinal()];
         }
     }
 
-    public class SuperCell {
-        private final Cell[] data = new Cell[DataUnit.values().length];
-
-        SuperCell() {
-            init();
-        }
-
-        private void submit(AnalysisListener listener) {
-            data[DataUnit.SWAPS.ordinal()].submit(listener.getAmtOfSwaps());
-            data[DataUnit.COMPARISONS.ordinal()].submit(listener.getAmtOfComparisons());
-            data[DataUnit.TIME.ordinal()].submit(listener.getElapsedTime());
-        }
-
-        private void init() {
+    public class Cell {
+        private final DataSet[] units = new DataSet[DataUnit.values().length];
+        
+        Cell() {
             for (int i = 0; i < DataUnit.values().length; i++) {
-                data[i] = new Cell();
+                units[i] = new DataSet();
             }
         }
 
-        public Cell getCell(DataUnit unit) {
-            return data[unit.ordinal()];
+        private void submit(AnalysisListener listener) {
+            units[DataUnit.SWAPS.ordinal()].submit(listener.getAmtOfSwaps());
+            units[DataUnit.COMPARISONS.ordinal()].submit(listener.getAmtOfComparisons());
+            units[DataUnit.TIME.ordinal()].submit(listener.getElapsedTime());
+        }
+
+        public DataSet getSetOfData(DataUnit unit) {
+            return units[unit.ordinal()];
         }
     }
 
-    public class Cell {
+    public class DataSet {
         private final List<Long> data = new ArrayList<>();
 
         public List<Long> getData() {
@@ -140,7 +134,7 @@ public class StatisticDataGenerator {
 
     public Map<SorterType, Cube> cubes(List<Sorter> sorters) {
         final Map<SorterType, Cube> result = new EnumMap<>(SorterType.class);
-        sorters.forEach(s -> result.put(s.getType(), cube(s)));
+        sorters.forEach(sorter -> result.put(sorter.getType(), cube(sorter)));
         return result;
     }
 
