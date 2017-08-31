@@ -1,4 +1,4 @@
-package anaydis.sort.tp2;
+package anaydis.sort.practice.analysis;
 
 import anaydis.sort.*;
 import anaydis.sort.data.DataSetGenerator;
@@ -14,7 +14,7 @@ import java.util.Map;
  * @author Agustin Bettati
  * @version 1.0
  */
-public class StatisticDataGenerator {
+class StatisticDataGenerator {
 
     private static final int RUNS = 10;
 
@@ -66,7 +66,7 @@ public class StatisticDataGenerator {
         abstract <T> List<T> create(@NotNull DataSetGenerator<T> generator, Schema schema);
     }
 
-    public class Cube {
+    class Cube {
         private final Cell[][] data = new Cell[Ordering.values().length][Schema.values().length];
 
         Cube() {
@@ -82,12 +82,12 @@ public class StatisticDataGenerator {
             cell.submit(listener);
         }
 
-        public Cell[] schemas(Ordering ordering) {
+        protected Cell[] schemas(Ordering ordering) {
             return data[ordering.ordinal()];
         }
     }
 
-    public class Cell {
+    class Cell {
         private final DataSet[] units = new DataSet[DataUnit.values().length];
         
         Cell() {
@@ -102,12 +102,12 @@ public class StatisticDataGenerator {
             units[DataUnit.TIME.ordinal()].submit(listener.getElapsedTime());
         }
 
-        public DataSet getSetOfData(DataUnit unit) {
+        protected DataSet getSetOfData(DataUnit unit) {
             return units[unit.ordinal()];
         }
     }
 
-    public class DataSet {
+    class DataSet {
         private final List<Long> data = new ArrayList<>();
 
         public List<Long> getData() {

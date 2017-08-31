@@ -1,4 +1,4 @@
-package anaydis.sort.tp2;
+package anaydis.sort.practice.tp2;
 
 import java.util.Comparator;
 
@@ -6,7 +6,7 @@ import java.util.Comparator;
  * @author Agustin Bettati
  * @version 1.0
  */
-public class FirstNameComparator implements Comparator<FullName> {
+class FirstNameComparator implements Comparator<FullName> {
 
     @Override
     public int compare(FullName o1, FullName o2) {

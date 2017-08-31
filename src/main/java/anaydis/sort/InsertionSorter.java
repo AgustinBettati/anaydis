@@ -1,7 +1,6 @@
 package anaydis.sort;
 
-import anaydis.sort.AbstractSorter;
-import anaydis.sort.SorterType;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
@@ -22,6 +21,7 @@ public class InsertionSorter extends AbstractSorter {
         final int n = list.size();
 
         for (int i = 1; i < n; i++) {
+            box(0,i);
             int j = i;
             while(j > 0 && greater(j-1,j,list,comparator) ){
                 //Implementation can be optimized using moves and declaring a variable
@@ -30,4 +30,5 @@ public class InsertionSorter extends AbstractSorter {
             }
         }
     }
+
 }

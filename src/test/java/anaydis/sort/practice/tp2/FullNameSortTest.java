@@ -1,4 +1,4 @@
-package anaydis.sort.tp2;
+package anaydis.sort.practice.tp2;
 
 import anaydis.sort.InsertionSorter;
 import anaydis.sort.Sorter;

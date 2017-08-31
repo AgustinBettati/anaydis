@@ -1,7 +1,5 @@
 package anaydis.sort;
 
-import anaydis.sort.AbstractSorter;
-import anaydis.sort.SorterType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
@@ -23,6 +21,7 @@ public class BubbleSorter extends AbstractSorter {
         final int n = list.size();
 
         for (int i = 0; i < (n-1); i++) {
+            box((n - 1) - i, n - 1);
             boolean swapWasMade = false;
             for (int j = 0; j < (n - 1) - i; j++) {
                 if(greater(j, j + 1, list, comparator)){
