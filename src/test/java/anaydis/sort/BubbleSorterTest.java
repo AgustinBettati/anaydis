@@ -13,6 +13,6 @@ public class BubbleSorterTest extends SorterTest{
 
     @Test
     public void testBubbleSort(){
-        testSorter(createIntegerDataSetGenerator(), SorterType.BUBBLE, 50);
+        testSorter(createIntegerDataSetGenerator(), SorterType.BUBBLE, 25);
     }
 }

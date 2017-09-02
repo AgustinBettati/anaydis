@@ -10,11 +10,7 @@ public class InsertionSorterTest extends SorterTest{
 
     @Test
     public void testInsertionSort(){
-        testSorter(createIntegerDataSetGenerator(), SorterType.INSERTION, 50);
+        testSorter(createIntegerDataSetGenerator(), SorterType.INSERTION, 25);
     }
 
-    @Test
-    public void testInsertionSortString(){
-        testSorter(createStringDataSetGenerator(), SorterType.INSERTION, 50);
-    }
 }
