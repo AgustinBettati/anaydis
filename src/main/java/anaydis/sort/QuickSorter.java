@@ -23,32 +23,31 @@ public class QuickSorter extends AbstractSorter {
 
     private <T> void sort(int low, int high,@NotNull Comparator<T> comparator, @NotNull List<T> list){
         if(high <= low) return;
-        int i = partitionLupani(low, high,comparator, list);
+        int i = partition(low, high,comparator, list);
         sort(low, i-1, comparator, list);
         sort(i+1, high, comparator, list);
 
     }
 
-    private <T> int partitionLupani(int low, int high, @NotNull Comparator<T> comparator, @NotNull List<T> list){
+    private <T> int partition(int low, int high, @NotNull Comparator<T> comparator, @NotNull List<T> list){
         {
             // si o si usa a high como pivot
             int i = low - 1;
             int j = high;
 
-
             while (true)
             {
-                while(greater(high, ++i, list, comparator)){
-                    if (i == high)
-                        break;
+                i++;
+                while(greater(high, i, list, comparator) && i < high){
+                    i++;
                 }
 
-                while(greater(--j, high, list, comparator)){
-                    if(j == low)
-                        break;
+                j--;
+                while(greater(j, high, list, comparator) && j > low){
+                    j--;
                 }
+
                 if(i >= j) break;
-
                 swap(i,j, list);
             }
             swap(i, high, list);
@@ -56,34 +55,4 @@ public class QuickSorter extends AbstractSorter {
         }
     }
 
-    /**
-     * Can only be used when list is of distinct values
-     * @param low
-     * @param high
-     * @param comparator
-     * @param list
-     * @param <T>
-     * @return
-     */
-    private <T> int partition(int low, int high, @NotNull Comparator<T> comparator, @NotNull List<T> list){
-        T pivot = list.get(low);
-        int i = low;
-        int j = high;
-        while (i < j)
-        {
-            while(greater(pivot, list.get(i),comparator) && i <= high){
-                i++;
-            }
-            while(greater(list.get(j), pivot, comparator) && j >= low) {
-                j--;
-            }
-
-            if (i < j) {
-                swap(i, j, list);
-            }
-
-        }
-        return j;
-
-    }
 }
