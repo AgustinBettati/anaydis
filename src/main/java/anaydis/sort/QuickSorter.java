@@ -31,14 +31,14 @@ public class QuickSorter extends AbstractSorter {
 
     private <T> int partitionLupani(int low, int high, @NotNull Comparator<T> comparator, @NotNull List<T> list){
         {
-            // high is taken as the pivot
+            // si o si usa a high como pivot
             int i = low - 1;
             int j = high;
 
 
             while (true)
             {
-                while(greater(high, ++i,list, comparator)){
+                while(greater(high, ++i, list, comparator)){
                     if (i == high)
                         break;
                 }
@@ -56,25 +56,32 @@ public class QuickSorter extends AbstractSorter {
         }
     }
 
+    /**
+     * Can only be used when list is of distinct values
+     * @param low
+     * @param high
+     * @param comparator
+     * @param list
+     * @param <T>
+     * @return
+     */
     private <T> int partition(int low, int high, @NotNull Comparator<T> comparator, @NotNull List<T> list){
         T pivot = list.get(low);
         int i = low;
         int j = high;
         while (i < j)
         {
-            //i++;
-            while(greater(pivot, list.get(i),comparator) && i < high){
+            while(greater(pivot, list.get(i),comparator) && i <= high){
                 i++;
             }
-            //j--;
-            while(greater(list.get(j), pivot, comparator) && j > low) {
+            while(greater(list.get(j), pivot, comparator) && j >= low) {
                 j--;
             }
 
-
-
-            if (i < j)
+            if (i < j) {
                 swap(i, j, list);
+            }
+
         }
         return j;
 

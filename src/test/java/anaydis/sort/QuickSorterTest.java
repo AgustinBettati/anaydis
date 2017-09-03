@@ -17,19 +17,22 @@ public class QuickSorterTest extends SorterTest{
     @Test
     public void testQuickSort(){
         List<Integer> list = new ArrayList<>();
-        list.add(4);
         list.add(8);
-        list.add(6);
-        list.add(5);
         list.add(7);
+        list.add(6);
+        //list.add(3);
+        list.add(5);
         list.add(4);
+        list.add(3);
+
+
 
         Sorter sorter = new QuickSorter();
         sorter.sort(Comparator.naturalOrder(), list);
 
         list.forEach(integer -> System.out.println(integer));
 
-        testSorter(createIntegerDataSetGenerator(), SorterType.QUICK, 200);
+        testSorter(createIntegerDataSetGenerator(), SorterType.QUICK, 20);
 
     }
 
