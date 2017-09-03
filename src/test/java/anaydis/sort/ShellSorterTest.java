@@ -21,7 +21,7 @@ public class ShellSorterTest extends  SorterTest{
     @Test
     public void testShellSortWithSpecificSequence(){
         IntegerDataSetGenerator generator = new IntegerDataSetGenerator();
-        List<Integer> list = generator.createRandom(100);
+        List<Integer> list = generator.createRandom(50);
 
         ShellSorter sorter = new ShellSorter();
 
