@@ -12,7 +12,7 @@ import java.util.List;
 public class ShellSorter extends AbstractSorter{
     private final HSorter hSorter;
 
-    ShellSorter() {
+    public ShellSorter() {
         super(SorterType.SHELL);
         hSorter = new HSorter();
     }
@@ -28,7 +28,7 @@ public class ShellSorter extends AbstractSorter{
 
     }
 
-    protected <T> void sort(@NotNull Comparator<T> comparator, @NotNull List<T> list, int[] sequence) {
+    public <T> void sort(@NotNull Comparator<T> comparator, @NotNull List<T> list, int[] sequence) {
         int i = sequence.length - 1;
         while (sequence[i] >= list.size())
             i--;
