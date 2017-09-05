@@ -6,7 +6,7 @@ import java.util.Comparator;
  * @author Agustin Bettati
  * @version 1.0
  */
-class FirstNameComparator implements Comparator<FullName> {
+public class FirstNameComparator implements Comparator<FullName> {
 
     @Override
     public int compare(FullName o1, FullName o2) {

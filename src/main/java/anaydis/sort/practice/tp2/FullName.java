@@ -4,12 +4,12 @@ package anaydis.sort.practice.tp2;
  * @author Agustin Bettati
  * @version 1.0
  */
-class FullName{
+public class FullName{
 
     private String firstname;
     private String lastname;
 
-    FullName(String firstname, String lastname) {
+    public FullName(String firstname, String lastname) {
         this.firstname = firstname;
         this.lastname = lastname;
     }
