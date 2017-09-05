@@ -8,8 +8,13 @@ import anaydis.sort.data.DataSetGenerator;
 import anaydis.sort.gui.ObservableSorter;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LongSummaryStatistics;
+import java.util.stream.Collectors;
 
 /**
  * @author Agustin Bettati
@@ -17,7 +22,7 @@ import java.util.List;
  */
 public class ShellSortPerformance {
 
-    private final int RUNS = 15;
+    private final int RUNS = 100;
 
     private enum DataUnit {
         TIME,
@@ -26,7 +31,7 @@ public class ShellSortPerformance {
 
     private enum Sequence {
         ONE(new int[]{1, 8, 23, 77, 281, 1073, 4193, 16577}),
-        TOW(new int[]{1, 4, 13, 40, 121, 364, 1093, 3280, 9841});
+        TWO(new int[]{1, 4, 13, 40, 121, 364, 1093, 3280, 9841});
 
         int[] sequence;
 
@@ -43,7 +48,8 @@ public class ShellSortPerformance {
     private enum Schema {
         ONE(100),
         TOW(1000),
-        THREE(10000);
+        THREE(5000),
+        FOUR(10000);
 
         int size;
 
@@ -54,6 +60,40 @@ public class ShellSortPerformance {
         public int value(){
             return size;
         }
+    }
+    public static void main(String[] args) throws IOException{
+        ShellSortPerformance performance = new ShellSortPerformance();
+
+        Cube cube = performance.cube();
+
+        File file = new File("/Users/agustinbettati/Documents/shellPerformance.csv");
+        FileWriter fw = new FileWriter(file);
+
+
+        for (Sequence sequence : Sequence.values()) {
+            fw.write("\n\n\nSequence: ");
+            int[] seq = sequence.getSequence();
+            for (int i = 0; i < seq.length; i++) {
+                fw.write(""+seq[i] + " ");
+            }
+            fw.write("\nn,time,comparisons\n");
+            final Cell[] schemas = cube.schemas(sequence);
+            for (final Schema schema : Schema.values()) {
+                fw.write(""+schema.value());
+                final Cell cell = schemas[schema.ordinal()];
+                for (DataUnit unit : DataUnit.values()) {
+                    final DataSet dataSet = cell.getSetOfData(unit);
+                    final LongSummaryStatistics statistics =
+                            dataSet.getData().stream().collect(Collectors.summarizingLong(value -> value));
+                    fw.write("," + String.format("%.0f", statistics.getAverage()) );
+                }
+                fw.write("\n");
+            }
+        }
+
+        fw.close();
+
+        System.out.println("All data has been generated and stored in /Documents/shellPerformance.csv");
     }
 
     @NotNull

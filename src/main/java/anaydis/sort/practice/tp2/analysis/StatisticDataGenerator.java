@@ -1,4 +1,4 @@
-package anaydis.sort.practice.analysis;
+package anaydis.sort.practice.tp2.analysis;
 
 import anaydis.sort.*;
 import anaydis.sort.data.DataSetGenerator;

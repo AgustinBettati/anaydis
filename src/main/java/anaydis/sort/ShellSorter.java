@@ -33,8 +33,22 @@ public class ShellSorter extends AbstractSorter{
         while (sequence[i] >= list.size())
             i--;
 
-        for (; i >= 0; i--)
-            hSorter.sort(comparator, list, sequence[i]);
+        int h;
+        for (; i >= 0; i--) {
+            h= sequence[i];
+            final int n = list.size();
+
+            for (int k = h; k < n; k++) {
+                final T value = list.get(k);
+                int j = k;
+
+                while (j >= h && greater(list.get(j - h), value, comparator)) {
+                    list.set(j, list.get(j - h));
+                    j -= h;
+                }
+                list.set(j, value);
+            }
+        }
 
     }
 }

@@ -1,4 +1,4 @@
-package anaydis.sort.practice.analysis;
+package anaydis.sort.practice.tp2.analysis;
 
 import anaydis.sort.*;
 
@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.LongSummaryStatistics;
 import java.util.Map;
 import java.util.stream.Collectors;
+import anaydis.sort.practice.tp2.analysis.StatisticDataGenerator.*;
 
 
 /**
@@ -26,25 +27,25 @@ class CSVGenerator {
         list.add(new InsertionSorter());
         list.add(new BubbleSorter());
 
-        final Map<SorterType, StatisticDataGenerator.Cube> cubes = dataGenerator.cubes(list);
+        final Map<SorterType, Cube> cubes = dataGenerator.cubes(list);
 
         File file = new File("/Users/agustinbettati/Documents/data.csv");
 
         FileWriter fw = new FileWriter(file);
 
-        for (StatisticDataGenerator.Ordering ordering : StatisticDataGenerator.Ordering.values()) {
+        for (Ordering ordering : Ordering.values()) {
 
             fw.write("\n\n\nORDERING: " + ordering +"\n");
             cubes.forEach((sorterType, cube) -> {
                 try{
                 fw.write("\nSORTER: " + sorterType + "\n");
                 fw.write("n,time,swaps,comparisons\n");
-                final StatisticDataGenerator.Cell[] schemas = cube.schemas(ordering);
-                for (final StatisticDataGenerator.Schema schema : StatisticDataGenerator.Schema.values()) {
+                final Cell[] schemas = cube.schemas(ordering);
+                for (final Schema schema : Schema.values()) {
                     fw.write(""+schema.value());
-                    final StatisticDataGenerator.Cell cell = schemas[schema.ordinal()];
-                    for (StatisticDataGenerator.DataUnit unit : StatisticDataGenerator.DataUnit.values()) {
-                        final StatisticDataGenerator.DataSet dataSet = cell.getSetOfData(unit);
+                    final Cell cell = schemas[schema.ordinal()];
+                    for (DataUnit unit : DataUnit.values()) {
+                        final DataSet dataSet = cell.getSetOfData(unit);
                         final LongSummaryStatistics statistics =
                                 dataSet.getData().stream().collect(Collectors.summarizingLong(value -> value));
                         fw.write("," + String.format("%.0f", statistics.getAverage()) );
