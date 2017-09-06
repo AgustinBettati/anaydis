@@ -16,7 +16,7 @@ import java.util.Map;
  */
 class StatisticDataGenerator {
 
-    private static final int RUNS = 50;
+    private static final int RUNS = 200;
 
     public enum DataUnit {
         TIME,
