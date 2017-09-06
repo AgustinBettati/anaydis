@@ -59,6 +59,13 @@ abstract class AbstractSorter implements ObservableSorter {
         list.set(j, t);
     }
 
+    <T> boolean equals(int i, int j, @NotNull List<T> list, @NotNull Comparator<T> comp) {
+        listeners.forEach(listener -> listener.equals(i,j));
+
+        return comp.compare(list.get(i), list.get(j)) == 0;
+
+    }
+
     <T> void copy(int from, int to, @NotNull List<T> list) {
         listeners.forEach(listener -> listener.copy(from,to, true));
         list.set(to, list.get(from));
