@@ -46,7 +46,7 @@ abstract class AbstractSorter implements ObservableSorter {
     }
 
     <T> boolean greater(T i, T j, @NotNull Comparator<T> comp) {
-        listeners.forEach(listener -> listener.greater(-1,-1));
+        listeners.forEach(listener -> listener.greater(0,0));
 
         return comp.compare(i, j) > 0;
     }
@@ -57,6 +57,11 @@ abstract class AbstractSorter implements ObservableSorter {
         T t = list.get(i);
         list.set(i, list.get(j));
         list.set(j, t);
+    }
+
+    <T> void copy(int from, int to, @NotNull List<T> list) {
+        listeners.forEach(listener -> listener.copy(from,to, true));
+        list.set(to, list.get(from));
     }
 
     void box(int start, int end) {

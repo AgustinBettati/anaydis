@@ -29,7 +29,8 @@ public class HSorter extends AbstractSorter {
             int j = i;
 
             while(j >= h && greater( list.get(j-h), value,comparator)){
-                list.set(j, list.get(j - h));
+                //list.set(j, list.get(j - h));
+                copy(j-h, j, list);
                 j -= h;
             }
             list.set(j, value);

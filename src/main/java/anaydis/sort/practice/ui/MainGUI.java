@@ -10,7 +10,6 @@ import anaydis.sort.SorterProviderImpl;
 class MainGUI {
 
     public static void main(String[] args) {
-
         Main.animate(new SorterProviderImpl());
     }
 }

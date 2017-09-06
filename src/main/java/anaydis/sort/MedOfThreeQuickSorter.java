@@ -40,16 +40,4 @@ public class MedOfThreeQuickSorter extends AbstractQuickSorter {
         }
     }
 
-    private <T> void insertion(int low,int high,@NotNull Comparator<T> comparator, @NotNull List<T> list) {
-        final int n = list.size();
-
-        for (int i = low + 1; i <= high; i++) {
-            box(0,i);
-            int j = i;
-            while(j > low && greater(j-1,j,list,comparator) ){
-                swap(j-1,j,list);
-                j--;
-            }
-        }
-    }
 }

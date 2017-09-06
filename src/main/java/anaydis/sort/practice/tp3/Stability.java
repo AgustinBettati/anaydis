@@ -43,9 +43,9 @@ public class Stability {
         System.out.println();
 
         System.out.println("Shell Sort:");
-        Sorter shellSorter = new ShellSorter();
-        shellSorter.sort(new FirstNameComparator(), list);
-        shellSorter.sort(new LastNameComparator(), list);
+        ShellSorter shellSorter = new ShellSorter();
+        shellSorter.sort(new FirstNameComparator(), list, new int[]{1, 3,7});
+        shellSorter.sort(new LastNameComparator(), list, new int[]{1, 3,7});
         list.forEach(System.out::println);
     }
 }
