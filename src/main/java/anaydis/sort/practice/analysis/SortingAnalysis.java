@@ -1,10 +1,10 @@
-package anaydis.sort.practice.tp2.analysis;
+package anaydis.sort.practice.analysis;
 
 import anaydis.sort.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import anaydis.sort.practice.tp2.analysis.StatisticDataGenerator.*;
+import anaydis.sort.practice.analysis.StatisticDataGenerator.*;
 
 
 

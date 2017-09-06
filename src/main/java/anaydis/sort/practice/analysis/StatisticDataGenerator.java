@@ -1,4 +1,4 @@
-package anaydis.sort.practice.tp2.analysis;
+package anaydis.sort.practice.analysis;
 
 import anaydis.sort.*;
 import anaydis.sort.data.DataSetGenerator;
@@ -16,21 +16,18 @@ import java.util.Map;
  */
 class StatisticDataGenerator {
 
-    private static final int RUNS = 10;
+    private static final int RUNS = 50;
 
     public enum DataUnit {
         TIME,
-        SWAPS,
         COMPARISONS
     }
 
     public enum Schema {
-        ONE(100),
-        TOW(500),
-        THREE(2000),
-        FOUR(5000),
-        FIVE(10000);
-
+        ONE(12500),
+        TOW(25000),
+        THREE(50000),
+        FOUR(100000);
 
         int size;
 
@@ -44,18 +41,6 @@ class StatisticDataGenerator {
     }
 
     public enum Ordering {
-        ASCENDING {
-            @Override
-            public <T> List<T> create(@NotNull DataSetGenerator<T> generator, Schema schema) {
-                return generator.createAscending(schema.size);
-            }
-        },
-        DESCENDING {
-            @Override
-            public <T> List<T> create(@NotNull DataSetGenerator<T> generator, Schema schema) {
-                return generator.createDescending(schema.size);
-            }
-        },
         RANDOM {
             @Override
             public <T> List<T> create(@NotNull DataSetGenerator<T> generator, Schema schema) {
@@ -82,8 +67,8 @@ class StatisticDataGenerator {
             cell.submit(listener);
         }
 
-        protected Cell[] schemas(Ordering ordering) {
-            return data[ordering.ordinal()];
+        protected Cell[] schemas(Ordering order) {
+            return data[order.ordinal()];
         }
     }
 
@@ -97,7 +82,6 @@ class StatisticDataGenerator {
         }
 
         private void submit(AnalysisListener listener) {
-            units[DataUnit.SWAPS.ordinal()].submit(listener.getAmtOfSwaps());
             units[DataUnit.COMPARISONS.ordinal()].submit(listener.getAmtOfComparisons());
             units[DataUnit.TIME.ordinal()].submit(listener.getElapsedTime());
         }

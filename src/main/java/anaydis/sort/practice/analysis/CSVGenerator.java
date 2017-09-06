@@ -1,4 +1,4 @@
-package anaydis.sort.practice.tp2.analysis;
+package anaydis.sort.practice.analysis;
 
 import anaydis.sort.*;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.LongSummaryStatistics;
 import java.util.Map;
 import java.util.stream.Collectors;
-import anaydis.sort.practice.tp2.analysis.StatisticDataGenerator.*;
+import anaydis.sort.practice.analysis.StatisticDataGenerator.*;
 
 
 /**
@@ -23,13 +23,15 @@ class CSVGenerator {
         final StatisticDataGenerator dataGenerator = new StatisticDataGenerator();
 
         List<Sorter> list = new ArrayList<>();
-        list.add(new SelectionSorter());
-        list.add(new InsertionSorter());
-        list.add(new BubbleSorter());
+        list.add(new QuickSorter());
+        list.add(new NonRecursQuickSorter());
+        list.add(new HybridQuickSorter());
+        list.add(new MedOfThreeQuickSorter());
+        list.add(new ThreeWayQuickSorter());
 
         final Map<SorterType, Cube> cubes = dataGenerator.cubes(list);
 
-        File file = new File("/Users/agustinbettati/Documents/data.csv");
+        File file = new File("/Users/agustinbettati/Documents/QuicksortPerformance.csv");
 
         FileWriter fw = new FileWriter(file);
 
@@ -38,8 +40,8 @@ class CSVGenerator {
             fw.write("\n\n\nORDERING: " + ordering +"\n");
             cubes.forEach((sorterType, cube) -> {
                 try{
-                fw.write("\nSORTER: " + sorterType + "\n");
-                fw.write("n,time,swaps,comparisons\n");
+                fw.write("\nSorter: " + sorterType + "\n");
+                fw.write("n,time (nanoseconds),comparisons\n");
                 final Cell[] schemas = cube.schemas(ordering);
                 for (final Schema schema : Schema.values()) {
                     fw.write(""+schema.value());
@@ -60,6 +62,6 @@ class CSVGenerator {
 
         fw.close();
 
-        System.out.println("All data has been generated and stored in /Documents/data.csv");
+        System.out.println("All data has been generated and stored in /Documents/QuicksortPerformance.csv");
     }
 }
