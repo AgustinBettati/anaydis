@@ -56,14 +56,14 @@ public class CutoffPerformance {
         File file = new File("/Users/agustinbettati/Documents/cutoffPerformance.csv");
         FileWriter fw = new FileWriter(file);
 
-        for (int i = 0; i < valuesOfM.length; i++) {
-            fw.write("\n\n\nM = " + valuesOfM[i]);
-            fw.write("\nn,time\n");
-            final Cell[] schemas = cube.schemas(i);
-            for (final Schema schema : Schema.values()) {
-                fw.write(""+schema.value());
-                final Cell cell = schemas[schema.ordinal()];
+        for (final Schema schema : Schema.values()) {
+            fw.write("\n\n\nN = " + schema.value());
+            fw.write("\nm,time\n");
+            final Cell[] mValues = cube.mValues(schema);
+            for (int i = 0; i < mValues.length; i++) {
+                fw.write(""+valuesOfM[i]);
 
+                final Cell cell = mValues[i];
                 final LongSummaryStatistics statistics =
                         cell.getData().stream().collect(Collectors.summarizingLong(value -> value));
                 fw.write("," + String.format("%.0f", statistics.getAverage()) );
@@ -119,23 +119,23 @@ public class CutoffPerformance {
     }
 
     private class Cube {
-        private final Cell[][] data = new Cell[valuesOfM.length][Schema.values().length];
+        private final Cell[][] data = new Cell[Schema.values().length][valuesOfM.length];
 
         Cube() {
             for (int i = 0; i < valuesOfM.length; i++) {
                 for (int j = 0; j < Schema.values().length; j++) {
-                    data[i][j] = new Cell();
+                    data[j][i] = new Cell();
                 }
             }
         }
 
         void submit(final Schema schema, final int indexOfMValue, final AnalysisListener listener) {
-            final Cell cell = data[indexOfMValue][schema.ordinal()];
+            final Cell cell = data[schema.ordinal()][indexOfMValue];
             cell.submit(listener.getElapsedTime());
         }
 
-        protected Cell[] schemas(int indexOfMValue) {
-            return data[indexOfMValue];
+        protected Cell[] mValues(Schema schema) {
+            return data[schema.ordinal()];
         }
     }
 
