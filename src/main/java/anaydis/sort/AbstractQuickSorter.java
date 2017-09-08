@@ -25,12 +25,12 @@ public abstract class AbstractQuickSorter extends AbstractSorter{
             while (true)
             {
                 i++;
-                while(greater(high, i, list, comparator) && i < high){
+                while(!greater(i, high, list, comparator) && i < high){
                     i++;
                 }
 
                 j--;
-                while(greater(j, high, list, comparator) && j > low){
+                while(!greater(high, j, list, comparator) && j > low){
                     j--;
                 }
 
@@ -42,16 +42,4 @@ public abstract class AbstractQuickSorter extends AbstractSorter{
         }
     }
 
-    <T> void insertion(int low,int high,@NotNull Comparator<T> comparator, @NotNull List<T> list) {
-        final int n = list.size();
-
-        for (int i = low + 1; i <= high; i++) {
-            box(0,i);
-            int j = i;
-            while(j > low && greater(j-1,j,list,comparator) ){
-                swap(j-1,j,list);
-                j--;
-            }
-        }
-    }
 }

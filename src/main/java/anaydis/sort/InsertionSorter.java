@@ -18,17 +18,22 @@ public class InsertionSorter extends AbstractSorter {
 
     @Override
     public <T> void sort(@NotNull Comparator<T> comparator, @NotNull List<T> list) {
-        final int n = list.size();
+        sort(0, list.size() -1, comparator, list);
+    }
 
-        for (int i = 1; i < n; i++) {
+    protected <T> void sort(int l, int r,@NotNull Comparator<T> comparator, @NotNull List<T> list) {
+
+        for (int i = l+1; i <= r; i++) {
             box(0,i);
             int j = i;
-            while(j > 0 && greater(j-1,j,list,comparator) ){
+            while(j > l && greater(j-1,j,list,comparator) ){
                 //Implementation can be optimized using moves and declaring a variable
                 swap(j-1,j,list);
                 j--;
             }
         }
     }
+
+
 
 }

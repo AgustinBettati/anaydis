@@ -1,5 +1,6 @@
 package anaydis.sort;
 
+import anaydis.sort.gui.SorterListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
@@ -33,23 +34,23 @@ public class ShellSorter extends AbstractSorter{
         while (sequence[i] >= list.size())
             i--;
 
-        int h;
+            int h;
         for (; i >= 0; i--) {
             h= sequence[i];
-            final int n = list.size();
-
-            for (int k = h; k < n; k++) {
-                final T value = list.get(k);
-                int j = k;
-
-                while (j >= h && greater(list.get(j - h), value, comparator)) {
-                   // list.set(j, list.get(j - h));
-                    copy(j-h, j, list);
-                    j -= h;
-                }
-                list.set(j, value);
-            }
+            hSorter.sort(comparator, list, h);
         }
+    }
 
+    @Override
+    public void addSorterListener(@NotNull SorterListener listener) {
+        super.addSorterListener(listener);
+        hSorter.addSorterListener(listener);
+    }
+
+    @Override
+    public void removeSorterListener(@NotNull SorterListener listener) {
+        super.removeSorterListener(listener);
+        hSorter.addSorterListener(listener);
     }
 }
+

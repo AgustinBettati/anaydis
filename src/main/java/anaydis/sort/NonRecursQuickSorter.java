@@ -32,14 +32,18 @@ public class NonRecursQuickSorter extends AbstractQuickSorter {
                 continue;
             }
             int i = partition(l, r, comparator, list);
-            if (i - l > r - i) {
+
+            final boolean c = i - l > r - i;
+
+            if (c) {
                 stack.push(l);
                 stack.push(i - 1);
             }
+
             stack.push(i + 1);
             stack.push(r);
 
-            if(r - i >= i - l){
+            if(!c){
                 stack.push(l);
                 stack.push(i - 1);
             }

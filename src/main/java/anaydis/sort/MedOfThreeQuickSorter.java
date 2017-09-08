@@ -12,9 +12,13 @@ import java.util.List;
 public class MedOfThreeQuickSorter extends AbstractQuickSorter {
 
     private final int M = 9;
+    private InsertionSorter cut;
+
 
     public MedOfThreeQuickSorter() {
+
         super(SorterType.QUICK_MED_OF_THREE);
+        cut = new InsertionSorter();
     }
 
     public <T> void sort(@NotNull Comparator<T> comparator, @NotNull List<T> list) {
@@ -22,7 +26,7 @@ public class MedOfThreeQuickSorter extends AbstractQuickSorter {
     }
 
     private <T> void sort(int low, int high,@NotNull Comparator<T> comparator, @NotNull List<T> list){
-        if(high - low + 1 <= M) insertion(low, high, comparator, list);
+        if(high - low + 1 <= M) cut.sort(low, high, comparator, list);
         else {
             swap((low+high)/2, high-1, list);
             if(greater(low, high - 1, list, comparator))

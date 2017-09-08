@@ -1,6 +1,6 @@
 package anaydis.sort.practice.tp3;
 
-import anaydis.sort.AnalysisListener;
+import anaydis.sort.practice.analysis.AnalysisListener;
 import anaydis.sort.IntegerDataSetGenerator;
 import anaydis.sort.ShellSorter;
 import anaydis.sort.Sorter;
