@@ -3,6 +3,7 @@ package anaydis.sort;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -19,22 +20,22 @@ abstract class AbstractMergeSort extends AbstractSorter{
     <T> void merge(@NotNull List<T> list, @NotNull Comparator<T> comparator,
                               int low, int middle, int high) {
 
-        final T[] auxList = (T[]) new Object[high - low + 1];
+        final List<T> aux = new ArrayList<>(high - low + 1);
 
 
         for (int i = 0; low + i <= middle ; i++) {
-            auxList[i] = list.get(i + low);
+            aux.add(list.get(i + low));
         }
 
-        for (int i = middle + 1, j = high - low; i <= high; i++, j--) {
-            auxList[j] = list.get(i);
+        for (int j = high; j >= middle + 1; j--) {
+            aux.add(list.get(j));
         }
 
         for (int k = low, i = 0, j = high - low; k <= high; k++) {
-            if(greater(auxList[i], auxList[j], comparator)) {
-                list.set(k, auxList[j--]);
+            if(greater(aux.get(i), aux.get(j), comparator)) {
+                list.set(k, aux.get(j--));
             } else {
-                list.set(k, auxList[i++]);
+                list.set(k, aux.get(i++));
             }
         }
     }
