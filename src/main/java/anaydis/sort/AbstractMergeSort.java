@@ -1,6 +1,5 @@
 package anaydis.sort;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

@@ -2,8 +2,6 @@ package anaydis.sort;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -19,14 +17,15 @@ public class MergeSorter extends AbstractMergeSort {
 
     @Override
     public <T> void sort(@NotNull Comparator<T> comparator, @NotNull List<T> list) {
+        sort(comparator, list, 0, list.size()-1);
+    }
 
-        for(int middle = 1; middle <= list.size() - 1; middle *= 2) {
-            final int subListLength = middle * 2;
-            for (int low = 0; low < list.size() - middle; low += subListLength) {
-                final int high = Math.min(low + subListLength, list.size());
-                merge(list, comparator, low, low + middle - 1, high - 1);
-            }
+    private <T> void sort(Comparator<T> comparator, List<T> list, int low, int high) {
+        if(low < high) {
+            int mid = (low + high) / 2;
+            sort(comparator, list, low, mid);
+            sort(comparator, list, mid + 1, high);
+            merge(list, comparator, low, mid, high);
         }
-
     }
 }
