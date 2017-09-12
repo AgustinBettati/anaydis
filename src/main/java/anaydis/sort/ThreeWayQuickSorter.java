@@ -23,8 +23,6 @@ public class ThreeWayQuickSorter extends AbstractQuickSorter {
     private <T> void sort(int low, int high,@NotNull Comparator<T> comparator, @NotNull List<T> list) {
         if (high <= low) return;
 
-        // pivot is the element located in high
-
         int i = low - 1;
         int j = high;
         int p = low - 1;

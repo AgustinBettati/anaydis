@@ -1,5 +1,6 @@
 package anaydis.sort;
 
+import anaydis.sort.gui.SorterListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
@@ -42,6 +43,18 @@ public class MedOfThreeQuickSorter extends AbstractQuickSorter {
             sort(low, i - 1, comparator, list);
             sort(i + 1, high, comparator, list);
         }
+    }
+
+    @Override
+    public void addSorterListener(@NotNull SorterListener listener) {
+        super.addSorterListener(listener);
+        cut.addSorterListener(listener);
+    }
+
+    @Override
+    public void removeSorterListener(@NotNull SorterListener listener) {
+        super.removeSorterListener(listener);
+        cut.addSorterListener(listener);
     }
 
 }

@@ -26,6 +26,7 @@ public class SorterProviderImpl implements SorterProvider {
         sorters.put(SorterType.QUICK_NON_RECURSIVE, new NonRecursQuickSorter());
         sorters.put(SorterType.QUICK_MED_OF_THREE, new MedOfThreeQuickSorter());
         sorters.put(SorterType.QUICK_THREE_PARTITION, new ThreeWayQuickSorter());
+        sorters.put(SorterType.MERGE, new MergeSorter());
     }
 
     @NotNull

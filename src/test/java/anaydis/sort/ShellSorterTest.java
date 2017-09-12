@@ -11,12 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Agustin Bettati
  * @version 1.0
  */
-public class ShellSorterTest extends  SorterTest{
-
-    @Test
-    public void testShellSort(){
-        testSorter(createIntegerDataSetGenerator(), SorterType.SHELL, 25);
-    }
+public class ShellSorterTest {
 
     @Test
     public void testShellSortWithSpecificSequence(){
