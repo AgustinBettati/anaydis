@@ -6,7 +6,6 @@ import org.junit.Test;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 
 /**
  * @author Agustin Bettati
@@ -26,10 +25,13 @@ public class MergeSorterTest{
         Collections.sort(right);
 
         List<Integer> list = new ArrayList<>(left);
-        left.addAll(15, right);
+        list.addAll(15, right);
+
+        MergeSorter mergeSorter = new MergeSorter();
+        mergeSorter.merge(list,Comparator.naturalOrder(),0,14, 29);
 
         List<Integer> copy = new ArrayList<>(list);
-        copy.sort(generator.getComparator());
+        Collections.sort(copy);
         assertThat(list).usingElementComparator(generator.getComparator()).containsExactlyElementsOf(copy);
 
     }
