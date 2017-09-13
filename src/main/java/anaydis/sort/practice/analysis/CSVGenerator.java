@@ -23,15 +23,12 @@ class CSVGenerator {
         final StatisticDataGenerator dataGenerator = new StatisticDataGenerator();
 
         List<Sorter> list = new ArrayList<>();
-        list.add(new QuickSorter());
-        list.add(new NonRecursQuickSorter());
-        list.add(new HybridQuickSorter());
-        list.add(new MedOfThreeQuickSorter());
-        list.add(new ThreeWayQuickSorter());
+        list.add(new MergeSorter());
+        list.add(new BottomUpMergeSorter());
 
         final Map<SorterType, Cube> cubes = dataGenerator.cubes(list);
 
-        File file = new File("/Users/agustinbettati/Documents/QuicksortPerformance.csv");
+        File file = new File("/Users/agustinbettati/Documents/MergeSortPerformance.csv");
 
         FileWriter fw = new FileWriter(file);
 
@@ -41,7 +38,7 @@ class CSVGenerator {
             cubes.forEach((sorterType, cube) -> {
                 try{
                 fw.write("\nSorter: " + sorterType + "\n");
-                fw.write("n,time (nanoseconds),comparisons\n");
+                fw.write("n,time (nanoseconds)\n");
                 final Cell[] schemas = cube.schemas(ordering);
                 for (final Schema schema : Schema.values()) {
                     fw.write(""+schema.value());
@@ -62,6 +59,6 @@ class CSVGenerator {
 
         fw.close();
 
-        System.out.println("All data has been generated and stored in /Documents/QuicksortPerformance.csv");
+        System.out.println("All data has been generated and stored in /Documents/MergeSortPerformance.csv");
     }
 }

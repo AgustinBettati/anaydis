@@ -16,18 +16,18 @@ import java.util.Map;
  */
 class StatisticDataGenerator {
 
-    private static final int RUNS = 200;
+    private static final int RUNS = 1000;
 
     public enum DataUnit {
-        TIME,
-        COMPARISONS
+        TIME
     }
 
     public enum Schema {
-        ONE(12500),
-        TOW(25000),
-        THREE(50000),
-        FOUR(100000);
+        ONE(100),
+        TOW(500),
+        THREE(1000),
+        FOUR(2500),
+        FIVE(5000);
 
         int size;
 
@@ -82,7 +82,7 @@ class StatisticDataGenerator {
         }
 
         private void submit(AnalysisListener listener) {
-            units[DataUnit.COMPARISONS.ordinal()].submit(listener.getAmtOfComparisons());
+            //units[DataUnit.COMPARISONS.ordinal()].submit(listener.getAmtOfComparisons());
             units[DataUnit.TIME.ordinal()].submit(listener.getElapsedTime());
         }
 

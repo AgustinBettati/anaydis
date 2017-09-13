@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * @author Agustin Bettati
  * @version 1.0
  */
-public class CutoffPerformance {
+class CutoffPerformance {
 
     private final int RUNS = 20;
 
