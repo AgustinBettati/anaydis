@@ -15,21 +15,33 @@ public class ArrayMap<K,V> implements Map<K,V>{
 
     private final List<K> keys;
     private final List<V> values;
-    private long size;
+    private int size;
     private Comparator<K> comp;
 
 
     public ArrayMap(Comparator<K> comparator){
-        keys = new ArrayList<>(10);
-        values = new ArrayList<>(10);
+        this(comparator, 200);
+    }
+
+    public ArrayMap(Comparator<K> comparator, int maxCapacity){
+        keys = new ArrayList<>(maxCapacity);
+        values = new ArrayList<>(maxCapacity);
+        fill(keys, maxCapacity);
+        fill(values, maxCapacity);
+
         comp = comparator;
         size = 0;
     }
 
+    private void fill(List list, int length){
+        for (int i = 0; i < length; i++) {
+            list.add(null);
+        }
+    }
+
     @Override
     public int size() {
-        if(size > Integer.MAX_VALUE) return Integer.MAX_VALUE;
-        return (int)size;
+        return size;
     }
 
     @Override
@@ -38,12 +50,19 @@ public class ArrayMap<K,V> implements Map<K,V>{
     }
 
     private int indexOf(@NotNull K key){
-        for (int i = 0; i < keys.size(); i++) {
-            if(comp.compare(key, keys.get(i)) == 0)
-                return i;
-        }
+        final int index = find(key, 0, size-1);
+        if(index < 0) return -1;
+        return index;
+    }
 
-        return -1;
+    private int find(K key, int low, int high) {
+        if(low > high) return -(low+1);
+
+        final int middle = (low + high) /2;
+        int comparison = comp.compare(key, keys.get(middle));
+        if(comparison ==0) return middle;
+        else if(comparison < 0) return find(key, 0, middle-1);
+        else return find(key, middle+1,high);
     }
 
     @Override
@@ -56,11 +75,15 @@ public class ArrayMap<K,V> implements Map<K,V>{
 
     @Override
     public V put(@NotNull K key, V value) {
-        int index = indexOf(key);
-        if(index == -1) {
-            index = (int)size;
-            keys.add(index, key);
-            values.add(index, value);
+        int index = find(key, 0, size -1);
+        if(index < 0) {
+            index = (-index) -1;
+            for(int i = size; i >= index + 1; i--){
+                keys.set(i, keys.get(i-1));
+                values.set(i, values.get(i-1));
+            }
+            keys.set(index, key);
+            values.set(index, value);
             size++;
             return null;
         }
