@@ -15,7 +15,7 @@ public class ArrayMap<K,V> implements Map<K,V>{
 
     private final List<K> keys;
     private final List<V> values;
-    private int size;
+    private long size;
     private Comparator<K> comp;
 
 
@@ -28,7 +28,8 @@ public class ArrayMap<K,V> implements Map<K,V>{
 
     @Override
     public int size() {
-        return size;
+        if(size > Integer.MAX_VALUE) return Integer.MAX_VALUE;
+        return (int)size;
     }
 
     @Override
@@ -36,7 +37,7 @@ public class ArrayMap<K,V> implements Map<K,V>{
         return indexOf(key) != -1;
     }
 
-    private int indexOf(K key){
+    private int indexOf(@NotNull K key){
         for (int i = 0; i < keys.size(); i++) {
             if(comp.compare(key, keys.get(i)) == 0)
                 return i;
@@ -57,14 +58,14 @@ public class ArrayMap<K,V> implements Map<K,V>{
     public V put(@NotNull K key, V value) {
         int index = indexOf(key);
         if(index == -1) {
-            index = size;
+            index = (int)size;
             keys.add(index, key);
             values.add(index, value);
             size++;
             return null;
         }
         V prev = values.get(index);
-        values.add(index, value);
+        values.set(index, value);
         return prev;
     }
 
