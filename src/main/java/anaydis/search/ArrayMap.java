@@ -59,6 +59,7 @@ public class ArrayMap<K,V> implements Map<K,V>{
         if(index == -1) {
             index = size;
             keys.add(index, key);
+            values.add(index, value);
             size++;
             return null;
         }
