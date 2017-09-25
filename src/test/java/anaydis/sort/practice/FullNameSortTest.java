@@ -1,7 +1,10 @@
-package anaydis.sort.practice.tp2;
+package anaydis.sort.practice;
 
 import anaydis.sort.InsertionSorter;
 import anaydis.sort.Sorter;
+import anaydis.sort.practice.tp2.FirstNameComparator;
+import anaydis.sort.practice.tp2.FullName;
+import anaydis.sort.practice.tp2.LastNameComparator;
 import org.junit.Test;
 
 import java.util.ArrayList;

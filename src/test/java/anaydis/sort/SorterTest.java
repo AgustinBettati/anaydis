@@ -9,6 +9,7 @@ import org.junit.runners.Parameterized;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @author Agustin Bettati
@@ -36,8 +37,7 @@ public class SorterTest extends AbstractSorterTest {
     /*
     Asigno el parametro que va a variar para cada "instancia" del test
      */
-    @Parameterized.Parameter
-    public Sorter sorter;
+    @Parameterized.Parameter public Sorter sorter;
 
     @Test
     public void testSorter() {
@@ -51,7 +51,7 @@ public class SorterTest extends AbstractSorterTest {
     Defino la List<Object[]> que va a definir los diferentes valores que toma el parametro.
     Cada parametro va a tener como nombre "sorter", y el valor que se encuentre en el indice 0 del array de Objects
      */
-    @Parameterized.Parameters(name = "sorter {0}")
+    @Parameterized.Parameters(name = "Sorter {0}")
     public static List<Object[]> sorters() {
         final SorterProvider provider = new SorterProviderImpl();
         final List<Object[]> sorters = new ArrayList<>();
