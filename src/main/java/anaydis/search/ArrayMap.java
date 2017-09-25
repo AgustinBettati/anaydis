@@ -3,6 +3,7 @@ package anaydis.search;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,21 +11,19 @@ import java.util.List;
  * @author Agustin Bettati
  * @version 1.0
  */
-public class ArrayMap<K extends Comparable<K>,V> implements Map<K,V>{
+public class ArrayMap<K,V> implements Map<K,V>{
 
     private final List<K> keys;
     private final List<V> values;
     private int size;
+    private Comparator<K> comp;
 
 
-    public ArrayMap(int maxSize) {
-        this.size = size;
-        keys = new ArrayList<>(size);
-        values = new ArrayList<>(size);
-    }
-
-    public ArrayMap(){
-        this(10);
+    public ArrayMap(Comparator<K> comparator){
+        keys = new ArrayList<>(10);
+        values = new ArrayList<>(10);
+        comp = comparator;
+        size = 0;
     }
 
     @Override
@@ -39,7 +38,7 @@ public class ArrayMap<K extends Comparable<K>,V> implements Map<K,V>{
 
     private int indexOf(K key){
         for (int i = 0; i < keys.size(); i++) {
-            if(keys.get(i).equals(key))
+            if(comp.compare(key, keys.get(i)) == 0)
                 return i;
         }
 
