@@ -2,10 +2,7 @@ package anaydis.search;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Agustin Bettati
@@ -16,11 +13,13 @@ public class RandomizedTreeMap<K,V> implements Map<K,V> {
     private Node<K,V>  head;
     private int size;
     private Comparator<K> comp;
+    private Random random;
 
     public RandomizedTreeMap(Comparator<K> comparator) {
         head = null;
         size = 0;
         comp = comparator;
+        random = new Random();
     }
 
     private class Node<K,V>{
@@ -29,16 +28,13 @@ public class RandomizedTreeMap<K,V> implements Map<K,V> {
         Node<K,V> left;
         Node<K,V> right;
 
-        public Node(K key, V value) {
+        Node(K key, V value) {
             this.key = key;
             this.value = value;
             left = null;
             right = null;
         }
-
-
     }
-
 
     @Override
     public int size() {
@@ -69,7 +65,9 @@ public class RandomizedTreeMap<K,V> implements Map<K,V> {
     @Override
     public V put(@NotNull K key, V value) {
         V prev = get(key);
-        head = put(head, key, value);
+        if(random.nextBoolean()) head = rootPut(head, key, value);
+        else head = put(head, key, value);
+
         return prev;
 
     }
@@ -87,6 +85,42 @@ public class RandomizedTreeMap<K,V> implements Map<K,V> {
 
             return node;
         }
+    }
+
+    private Node<K, V> rootPut(Node<K, V> node,K key, V value) {
+        if(node == null){
+            size++;
+            return new Node<K,V>(key, value);
+        }
+        else {
+            final int comparison = comp.compare(key, node.key);
+
+            if(comparison < 0) {
+                node.left = rootPut(node.left, key, value);
+                return rotateRight(node);
+            }
+            if(comparison > 0) {
+                node.right = rootPut(node.right, key, value);
+                return rotateLeft(node);
+            }
+            else {
+                node.value = value;
+                return node;
+            }
+        }
+    }
+
+    private Node<K, V> rotateRight(Node<K, V> node)  {
+        final Node<K,V> result = node.left;
+        node.left = result.right;
+        result.right = node;
+        return result;
+    }
+    private Node<K, V> rotateLeft(Node<K, V> node)  {
+        final Node<K,V> result = node.right;
+        node.right = result.left;
+        result.left = node;
+        return result;
     }
 
 
