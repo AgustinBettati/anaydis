@@ -1,7 +1,8 @@
 package anaydis.search;
 
 
-import java.util.Random;
+import java.util.*;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -14,14 +15,19 @@ public class TreeMapTest {
 
     @org.junit.Test
     public void testPutMethod() {
-        RandomizedTreeMap<Integer, String> map = new RandomizedTreeMap<>((o1, o2) -> o1.compareTo(o2));
+        RandomizedTreeMap<Integer, Integer> map = new RandomizedTreeMap<>((o1, o2) -> o1.compareTo(o2));
+        HashMap<Integer, Integer> hashMap = new HashMap<>();
+
+        Random rand = new Random();
 
         for (int i = 0; i < 100; i++) {
-            map.put(i, "" + i);
+            int number = rand.nextInt();
+            map.put(number, i);
         }
 
-        for (int i = 0; i < 100; i++) {
-            assertEquals("" + i, map.get(i));
+        for(Map.Entry<Integer, Integer> element : hashMap.entrySet()) {
+            assertEquals(element.getValue(), map.get(element.getKey()));
         }
+
     }
 }

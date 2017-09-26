@@ -133,15 +133,15 @@ public class RandomizedTreeMap<K,V> implements Map<K,V> {
     @Override
     public Iterator<K> keys() {
         List<K> list = new ArrayList<>();
-        getTreePreOrder(head, list);
+        getTreeInOrder(head, list);
         return list.iterator();
     }
 
-    private void getTreePreOrder(Node<K,V> node, List<K> list) {
+    private void getTreeInOrder(Node<K,V> node, List<K> list) {
         if (node != null) {
+            getTreeInOrder(node.left, list);
             list.add(node.key);
-            getTreePreOrder(node.left, list);
-            getTreePreOrder(node.right, list);
+            getTreeInOrder(node.right, list);
         }
     }
 }
