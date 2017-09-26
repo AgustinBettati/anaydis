@@ -51,7 +51,7 @@ public class ArrayMap<K,V> implements Map<K,V>{
         final int middle = (low + high) /2;
         int comparison = comp.compare(key, keys.get(middle));
         if(comparison ==0) return middle;
-        else if(comparison < 0) return find(key, 0, middle-1);
+        else if(comparison < 0) return find(key, low, middle-1);
         else return find(key, middle+1,high);
     }
 

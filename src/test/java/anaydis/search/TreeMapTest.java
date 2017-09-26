@@ -23,6 +23,7 @@ public class TreeMapTest {
         for (int i = 0; i < 100; i++) {
             int number = rand.nextInt();
             map.put(number, i);
+            hashMap.put(number, i);
         }
 
         for(Map.Entry<Integer, Integer> element : hashMap.entrySet()) {
