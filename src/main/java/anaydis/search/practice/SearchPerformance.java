@@ -17,7 +17,9 @@ public class SearchPerformance {
 
     public static void main(String[] args) throws IOException {
         Map<String, Integer> map = new ArrayMap<>((o1, o2) -> o1.compareTo(o2));
-        fillMap(map, 100);
+        int[] schemas = {5000, 50000, 100000, 150000, 200000};
+
+
 
     }
 
@@ -37,6 +39,25 @@ public class SearchPerformance {
             words++;
             word = bufferedReader.readLine();
         }
-
     }
+
+    private static long searchInMapAndGetTime(Map<String,Integer> map, int amountOfWords) throws IOException {
+        FileReader fileReader = new FileReader("src/test/resources/books/reversedQuijote.txt");
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+        int words = 0;
+        String word = bufferedReader.readLine();
+        long start = System.nanoTime();
+        while(words < amountOfWords){
+
+            map.get(word);
+
+            words++;
+            word = bufferedReader.readLine();
+        }
+
+        return System.nanoTime() - start;
+    }
+
+
 }
