@@ -80,7 +80,7 @@ public class RandomizedTreeMap<K,V> implements Map<K,V> {
         else{
             final int comparison = comp.compare(key, node.key);
             if(comparison < 0) node.left = put(node.left, key, value);
-            if(comparison > 0) node.right = put(node.right, key, value);
+            else if(comparison > 0) node.right = put(node.right, key, value);
             else node.value = value;
 
             return node;
@@ -99,7 +99,7 @@ public class RandomizedTreeMap<K,V> implements Map<K,V> {
                 node.left = rootPut(node.left, key, value);
                 return rotateRight(node);
             }
-            if(comparison > 0) {
+            else if(comparison > 0) {
                 node.right = rootPut(node.right, key, value);
                 return rotateLeft(node);
             }
