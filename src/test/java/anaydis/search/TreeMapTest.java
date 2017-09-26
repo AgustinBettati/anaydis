@@ -15,7 +15,7 @@ public class TreeMapTest {
 
     @org.junit.Test
     public void testPutMethod() {
-        RandomizedTreeMap<Integer, Integer> map = new RandomizedTreeMap<>((o1, o2) -> o1.compareTo(o2));
+        ArrayMap<Integer, Integer> map = new ArrayMap<>((o1, o2) -> o1.compareTo(o2));
         HashMap<Integer, Integer> hashMap = new HashMap<>();
 
         Random rand = new Random();

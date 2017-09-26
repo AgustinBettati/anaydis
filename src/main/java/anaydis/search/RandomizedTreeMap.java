@@ -66,21 +66,21 @@ public class RandomizedTreeMap<K,V> implements Map<K,V> {
     public V put(@NotNull K key, V value) {
         V prev = get(key);
         if(random.nextBoolean()) head = rootPut(head, key, value);
-        else head = put(head, key, value);
+        else head = leafPut(head, key, value);
 
         return prev;
 
     }
 
-    private Node<K, V> put(Node<K, V> node, K key, V value) {
+    private Node<K, V> leafPut(Node<K, V> node, K key, V value) {
         if(node == null) {
                 size++;
                 return new Node<K,V>(key, value);
         }
         else{
             final int comparison = comp.compare(key, node.key);
-            if(comparison < 0) node.left = put(node.left, key, value);
-            else if(comparison > 0) node.right = put(node.right, key, value);
+            if(comparison < 0) node.left = leafPut(node.left, key, value);
+            else if(comparison > 0) node.right = leafPut(node.right, key, value);
             else node.value = value;
 
             return node;

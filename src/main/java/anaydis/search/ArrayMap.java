@@ -19,24 +19,14 @@ public class ArrayMap<K,V> implements Map<K,V>{
     private Comparator<K> comp;
 
 
-    public ArrayMap(Comparator<K> comparator){
-        this(comparator, 200);
-    }
 
-    public ArrayMap(Comparator<K> comparator, int maxCapacity){
-        keys = new ArrayList<>(maxCapacity);
-        values = new ArrayList<>(maxCapacity);
-        fill(keys, maxCapacity);
-        fill(values, maxCapacity);
+
+    public ArrayMap(Comparator<K> comparator){
+        keys = new ArrayList<>();
+        values = new ArrayList<>();
 
         comp = comparator;
         size = 0;
-    }
-
-    private void fill(List list, int length){
-        for (int i = 0; i < length; i++) {
-            list.add(null);
-        }
     }
 
     @Override
@@ -79,17 +69,27 @@ public class ArrayMap<K,V> implements Map<K,V>{
         if(index < 0) {
             index = (-index) -1;
             for(int i = size; i >= index + 1; i--){
-                keys.set(i, keys.get(i-1));
-                values.set(i, values.get(i-1));
+                setValueInList(i, keys.get(i-1), keys);
+                setValueInList(i, values.get(i-1), values);
+
             }
-            keys.set(index, key);
-            values.set(index, value);
+            setValueInList(index, key, keys);
+            setValueInList(index, value, values);
             size++;
             return null;
         }
         V prev = values.get(index);
         values.set(index, value);
         return prev;
+    }
+
+    private <T> void setValueInList(int i, T k, List<T> list) {
+        if(i == list.size()) {
+            list.add(k);
+        }
+        else{
+            list.set(i, k);
+        }
     }
 
     @Override
