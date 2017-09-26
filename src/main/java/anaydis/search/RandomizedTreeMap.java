@@ -42,7 +42,7 @@ public class RandomizedTreeMap<K,V> implements Map<K,V> {
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
