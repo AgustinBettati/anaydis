@@ -53,8 +53,6 @@ public class SearchPerformance {
 
         fw.close();
         System.out.println("All data has been generated and stored in /Documents/ArrayVsTreeSearch.csv");
-
-
     }
 
     private static void fillMap(Map<String,Integer> map, int amountOfWords) throws IOException {
