@@ -18,6 +18,7 @@ public class SearchPerformance {
 
     private static final int RUNS = 100;
 
+
     public static void main(String[] args) throws IOException {
         int[] schemas = {5000, 50000, 100000, 150000, 200000};
 
