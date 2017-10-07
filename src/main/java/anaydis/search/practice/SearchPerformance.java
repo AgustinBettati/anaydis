@@ -2,6 +2,7 @@ package anaydis.search.practice;
 
 import anaydis.search.ArrayMap;
 import anaydis.search.Map;
+import anaydis.search.RWayTrieMap;
 import anaydis.search.RandomizedTreeMap;
 
 import java.io.*;
@@ -24,14 +25,15 @@ public class SearchPerformance {
 
         Map<String, Integer> arrayMap = new ArrayMap<>(String::compareTo);
         Map<String, Integer> treeMap = new RandomizedTreeMap<>(String::compareTo);
-        Map<String,Integer>[] maps = new Map[]{arrayMap,treeMap};
+        Map<String, Integer> rWayTrieMap = new RWayTrieMap<>();
+        Map<String,Integer>[] maps = new Map[]{arrayMap,treeMap,rWayTrieMap};
 
-        File file = new File("/Users/agustinbettati/Documents/ArrayVsTreeSearch.csv");
+        File file = new File("/Users/agustinbettati/Documents/mapComparisons.csv");
 
         FileWriter fw = new FileWriter(file);
 
         fw.write("amount of runs: "+ RUNS + "\n\n");
-        fw.write("n,ArrayMap,RandomizedTreeMap \n");
+        fw.write("n,ArrayMap,RandomizedTreeMap,RWayTrieMap \n");
 
         for (int schema : schemas) {
 
@@ -53,7 +55,7 @@ public class SearchPerformance {
         }
 
         fw.close();
-        System.out.println("All data has been generated and stored in /Documents/ArrayVsTreeSearch.csv");
+        System.out.println("All data has been generated and stored in /Documents/mapComparison.csv");
     }
 
     private static void fillMap(Map<String,Integer> map, int amountOfWords) throws IOException {
@@ -64,7 +66,8 @@ public class SearchPerformance {
         String word = bufferedReader.readLine();
         while(words < amountOfWords){
             if(map.containsKey(word)){
-                map.put(word, map.get(word) + 1);
+                int amt = map.get(word);
+                map.put(word, amt + 1);
             }
             else{
                 map.put(word, 1);

@@ -41,7 +41,8 @@ public class RWayTrieMap<V> implements Map<String,V> {
 
     @Override
     public boolean containsKey(@NotNull String key) {
-        return find(head, key, 0) != null;
+        Node<V> node = find(head, key, 0);
+        return (node != null && node.value != null);
     }
 
     @Override
@@ -62,7 +63,6 @@ public class RWayTrieMap<V> implements Map<String,V> {
 
     @Override
     public V put(@NotNull String key, V value) {
-        //TODO manejar lo de keys
         V prev = get(key);
         if(prev == null) keys.add(key);
         head = put(head, key, value, 0);
