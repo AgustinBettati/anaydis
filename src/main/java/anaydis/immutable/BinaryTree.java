@@ -39,6 +39,7 @@ public class BinaryTree<K,V> implements Map<K,V> {
             this.left = left;
             this.right = right;
         }
+
     }
 
     @Override
@@ -60,15 +61,14 @@ public class BinaryTree<K,V> implements Map<K,V> {
             final int comparison = comp.compare(key, node.key);
             Node<K,V> newNode;
             if(comparison < 0) {
-                newNode = new Node<>(key, value, put(node.left, key, value), node.right);
+                newNode = new Node<>(node.key, node.value, put(node.left, key, value), node.right);
             }
             else if(comparison > 0){
-                newNode = new Node<>(key, value, node.left, put(node.right,key,value));
+                newNode = new Node<>(node.key, node.value, node.left, put(node.right,key,value));
             }
             else {
-                newNode = new Node<>(key, value,node.left, node.right);
+                newNode = new Node<>(node.key, value,node.left, node.right);
             }
-
             return newNode;
         }
     }
