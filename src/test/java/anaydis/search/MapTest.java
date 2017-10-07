@@ -26,15 +26,22 @@ public class MapTest {
 
         Random rand = new Random();
 
+        String key = "";
         for (int i = 0; i < 100; i++) {
-            String key = rand.nextInt() + "";
+            key = rand.nextInt() + "";
             map.put(key, i);
             hashMap.put(key, i);
         }
+        map.put(key, 0);
+        hashMap.put(key, 0);
+
+        assert(map.size() == hashMap.size());
 
         for(Map.Entry<String, Integer> element : hashMap.entrySet()) {
+            assert(map.containsKey(element.getKey()));
             assertEquals(element.getValue(), map.get(element.getKey()));
         }
+
     }
 
     @Parameterized.Parameters(name = "Map {0}")

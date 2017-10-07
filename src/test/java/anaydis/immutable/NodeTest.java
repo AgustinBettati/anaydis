@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 
 /**
  * @author Agustin Bettati
@@ -30,7 +29,25 @@ public class NodeTest {
         }
         assertThat(elementsOfReverse).usingElementComparator(Integer::compareTo).
                 containsExactlyElementsOf(Arrays.asList(4,3,2,1));
-
     }
+
+    @Test
+    public void nillEmptyTest() {
+        List nill = List.nil();
+        assert(nill.isEmpty());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void nillHeadTest() {
+        List nill = List.nil();
+        nill.head();
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void nillTailTest() {
+        List nill = List.nil();
+        nill.tail();
+    }
+
 
 }
