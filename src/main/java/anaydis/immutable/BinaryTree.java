@@ -27,7 +27,7 @@ public class BinaryTree<K,V> implements Map<K,V> {
         this.comp = comp;
     }
 
-    private class Node<Key,Val>{
+    protected class Node<Key,Val>{
         final Key key;
         final Val value;
         final Node<Key,Val> left;
