@@ -20,7 +20,6 @@ public class FileModifier {
         int amountOfWords = 0;
         String line = bufferedReader.readLine();
         while (line!= null && amountOfWords < 210000) {
-            String trimLine = line.trim();
 
             String[] words = line.split("\\W+");
 
