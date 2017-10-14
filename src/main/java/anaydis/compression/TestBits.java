@@ -11,6 +11,7 @@ import java.util.Map;
 public class TestBits {
 
     public static void main(String[] args) {
+        System.out.println(-1+(2*128));
         Bits bits = new Bits(5, 3);
         Map<Bits, Integer> map = new HashMap<>();
 

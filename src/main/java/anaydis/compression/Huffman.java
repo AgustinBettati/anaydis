@@ -24,17 +24,41 @@ public class Huffman implements Compressor {
 
         Map<Integer, String> codesInString = new HashMap<>();
         buildStringCode(codesInString, head, "");
-        Map<Integer, Bits> codesInBits = new HashMap<>();
-        buildBitsCode(codesInBits, head, new Bits());
 
-        writeTable(codesInBits, output);
+
+        writeTable(codesInString, output);
         output.write(escapeChar);
 
+        //TODO amt of bits da muy grande y no se puede guardar
         int amtOfBits = amountOfBits(frequencyTable, codesInString);
         output.write(amtOfBits);
 
         input.reset();
         writeEncodedMessage(input, output, codesInString);
+    }
+
+    private void writeTable(Map<Integer, String> codesInString, OutputStream output) throws IOException {
+        for(Map.Entry<Integer, String> charAndString : codesInString.entrySet()) {
+            output.write(charAndString.getKey());
+            String binaryCode = charAndString.getValue();
+            int amtOfBits = binaryCode.length();
+            output.write(amtOfBits);
+
+            int[] binaryArray = new int[binaryCode.length()];
+            for (int i = 0; i < binaryCode.length(); i++) {
+                binaryArray[i] = Character.getNumericValue(binaryCode.charAt(i));
+            }
+            Bits bits = new Bits();
+            for (int i = 0; i < amtOfBits; i++) {
+                if(bits.byteIsFull()){
+                    output.write(bits.getIntRepresentation());
+                    bits.reset();
+                }
+                bits.addBit(binaryArray[i]);
+            }
+            output.write(bits.getIntRepresentation());
+
+        }
     }
 
     private void writeEncodedMessage(InputStream input, OutputStream output, Map<Integer, String> codesInString) throws IOException {
@@ -73,27 +97,28 @@ public class Huffman implements Compressor {
     }
 
 
-    private void writeTable(Map<Integer, Bits> codes, OutputStream output) throws IOException {
-        for(Map.Entry<Integer, Bits> code : codes.entrySet()) {
-            output.write(code.getKey());
-            output.write(code.getValue().getCount());
-            output.write(code.getValue().getIntRepresentation());
-        }
-    }
 
-    private void buildBitsCode(Map<Integer, Bits> codes, Node node, Bits bits) {
-        if(node.isLeaf()){
-            codes.put(node.ch, bits);
-        }
-        else{
-            Bits bitsCopy = new Bits(bits.getIntRepresentation(), bits.getCount());
-            bitsCopy.addBit(1);
-            buildBitsCode(codes, node.right, bitsCopy);
-            bits.addBit(0);
-            buildBitsCode(codes, node.left,  bits);
+//    private void writeTable(Map<Integer, Bits> codes, OutputStream output) throws IOException {
+//        for(Map.Entry<Integer, Bits> code : codes.entrySet()) {
+//            output.write(code.getKey());
+//            output.write(code.getValue().getCount());
+//            output.write(code.getValue().getIntRepresentation());
+//        }
+//    }
 
-        }
-    }
+//    private void buildBitsCode(Map<Integer, Bits> codes, Node node, Bits bits) {
+//        if(node.isLeaf()){
+//            codes.put(node.ch, bits);
+//        }
+//        else{
+//            Bits bitsCopy = new Bits(bits.getIntRepresentation(), bits.getCount());
+//            bitsCopy.addBit(1);
+//            buildBitsCode(codes, node.right, bitsCopy);
+//            bits.addBit(0);
+//            buildBitsCode(codes, node.left,  bits);
+//
+//        }
+//    }
 
     private void buildStringCode(Map<Integer, String> codes, Node node, String s) {
         if(node.isLeaf()){
@@ -136,20 +161,46 @@ public class Huffman implements Compressor {
         return frequencyTable;
     }
 
+
     @Override
     public void decode(@NotNull InputStream input, @NotNull OutputStream output) throws IOException {
-        Map<Bits, Integer> codeToCharMap = new HashMap<>();
+        Map<Bits, Integer> bitsToCharMap = new HashMap<>();
 
         int inputByte = input.read();
         while(inputByte != escapeChar){
-            int character = inputByte;
-            int count = input.read();
-            int intRepresentation = input.read();
-            Bits bits = new Bits(intRepresentation, count);
-            codeToCharMap.put(bits, character);
+            int character;
+            if(inputByte < 0){
+                character = inputByte + 256;
+            }else {
+                character = inputByte;
+            }
+            int amountOfBits = input.read();
+            int amtOfFullBytes = amountOfBits/8;
+            int amtOfBitsLastByte = amountOfBits % 8;
+
+            Bits bits = new Bits();
+            for (int i = 0; i < amtOfFullBytes; i++) {
+
+                Bits fullByte = new Bits(input.read(), 8);
+
+                for (int j = 7; j >= 0; j--) {
+                    int newBit = fullByte.bitAt(j);
+                    bits.addBit(newBit);
+                }
+            }
+            if(amtOfBitsLastByte > 0) {
+                Bits lastByte = new Bits(input.read(), amtOfBitsLastByte);
+                for (int i = amtOfBitsLastByte - 1; i >= 0; i--) {
+                    int newBit = lastByte.bitAt(i);
+                    bits.addBit(newBit);
+                }
+            }
+
+            bitsToCharMap.put(bits, character);
 
             inputByte = input.read();
         }
+
         int amountOfBits = input.read();
         int amtOfFullBytes = amountOfBits/8;
         int amtOfBitsLastByte = amountOfBits % 8;
@@ -162,8 +213,8 @@ public class Huffman implements Compressor {
             for (int j = 7; j >= 0; j--) {
                 int newBit = fullByte.bitAt(j);
                 posibleCode.addBit(newBit);
-                if(codeToCharMap.containsKey(posibleCode)){
-                    output.write(codeToCharMap.get(posibleCode));
+                if(bitsToCharMap.containsKey(posibleCode)){
+                    output.write(bitsToCharMap.get(posibleCode));
                     posibleCode.reset();
                 }
             }
@@ -173,13 +224,11 @@ public class Huffman implements Compressor {
         for (int i = amtOfBitsLastByte -1; i >= 0; i--) {
             int newBit = fullByte.bitAt(i);
             posibleCode.addBit(newBit);
-            if(codeToCharMap.containsKey(posibleCode)){
-                output.write(codeToCharMap.get(posibleCode));
+            if(bitsToCharMap.containsKey(posibleCode)){
+                output.write(bitsToCharMap.get(posibleCode));
                 posibleCode.reset();
             }
         }
-
-        System.out.println();
     }
 
 

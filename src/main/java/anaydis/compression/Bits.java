@@ -23,16 +23,16 @@ public class Bits {
         if(value != 0 && value != 1)
             throw new RuntimeException("Bit can only be 1 or 0");
 
-        if(count >= 8){
-            throw new RuntimeException("Byte is full");
-        }
+//        if(count >= 8){
+//            throw new RuntimeException("Byte is full");
+//        }
         acum = acum << 1 | value;
         count++;
     }
 
     public int bitAt(int n){
-        if(n > 8 || n < 0)
-            throw new RuntimeException("Byte has only 8 bits");
+//        if(n > 8 || n < 0)
+//            throw new RuntimeException("Byte has only 8 bits");
 
         return ((acum >> n) & 1);
     }
