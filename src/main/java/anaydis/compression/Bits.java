@@ -22,19 +22,28 @@ public class Bits {
     public void addBit(int value){
         if(value != 0 && value != 1)
             throw new RuntimeException("Bit can only be 1 or 0");
-        int newAcum = acum | value << count;
+
+        if(count >= 8){
+            throw new RuntimeException("Byte is full");
+        }
+        acum = acum << 1 | value;
         count++;
     }
 
-    public boolean bitAt(int n){
+    public int bitAt(int n){
         if(n > 8 || n < 0)
             throw new RuntimeException("Byte has only 8 bits");
 
-        return ((acum >> n) & 1) == 1;
+        return ((acum >> n) & 1);
     }
 
     public int getIntRepresentation(){
         return acum;
+    }
+
+    public void reset(){
+        acum = 0;
+        count = 0;
     }
 
     public int getCount() {
@@ -46,5 +55,18 @@ public class Bits {
 
     public String toString(){
         return Integer.toBinaryString(acum);
+    }
+
+
+    public boolean equals(Object other){
+        Bits o = (Bits) other;
+        return acum == o.acum && count == o.count;
+    }
+
+    public int hashCode(){
+        int hash = 17;
+        hash = hash * 31 + acum;
+        hash = hash * 31 + count;
+        return hash;
     }
 }
