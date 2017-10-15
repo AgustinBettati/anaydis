@@ -24,9 +24,7 @@ public class RunLengthEncodingTest {
 
         compressor.encode(is, output);
 
-        String encoded = output.toString();
-
-        InputStream newIs = new ByteArrayInputStream( encoded.getBytes());
+        InputStream newIs = new ByteArrayInputStream( output.toByteArray());
         ByteArrayOutputStream newOutput = new ByteArrayOutputStream();
         compressor.decode(newIs, newOutput);
 

@@ -5,14 +5,13 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
 
 /**
  * @author Agustin Bettati
  * @version 1.0
  */
 public class RunLengthEncoding implements Compressor{
-    private final int escapeChar = 127;
+    private final int escapeChar = 255;
 
     @Override
     public void encode(@NotNull InputStream input, @NotNull OutputStream output) throws IOException {

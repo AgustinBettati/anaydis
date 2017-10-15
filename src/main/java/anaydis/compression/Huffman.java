@@ -14,7 +14,7 @@ import java.util.PriorityQueue;
  * @version 1.0
  */
 public class Huffman implements Compressor {
-    private final int escapeChar = 127;
+    private final int escapeChar = 255;
 
     @Override
     public void encode(@NotNull InputStream input, @NotNull OutputStream output) throws IOException {
@@ -33,8 +33,8 @@ public class Huffman implements Compressor {
         String digits = amtOfBits + "";
         output.write(digits.length());
         char[] arrayOfDigits = digits.toCharArray();
-        for (int i = 0; i < arrayOfDigits.length; i++) {
-            output.write(Character.getNumericValue(arrayOfDigits[i]));
+        for (char arrayOfDigit : arrayOfDigits) {
+            output.write(Character.getNumericValue(arrayOfDigit));
         }
 
         input.reset();
@@ -75,13 +75,13 @@ public class Huffman implements Compressor {
                 binaryArray[i] = Character.getNumericValue(binaryCode.charAt(i));
             }
 
-            for (int i = 0; i < binaryArray.length; i++) {
-                if(currentByte.byteIsFull()) {
+            for (int aBinaryArray : binaryArray) {
+                if (currentByte.byteIsFull()) {
                     output.write(currentByte.getIntRepresentation());
                     currentByte.reset();
                 }
 
-                currentByte.addBit(binaryArray[i]);
+                currentByte.addBit(aBinaryArray);
             }
             byteInput = input.read();
         }
@@ -142,16 +142,50 @@ public class Huffman implements Compressor {
 
     @Override
     public void decode(@NotNull InputStream input, @NotNull OutputStream output) throws IOException {
-        Map<Bits, Integer> bitsToCharMap = new HashMap<>();
 
+        Map<Bits, Integer> bitsToCharMap = readTable(input);
+
+        int lengthOfDigit = input.read();
+        String digit = "";
+        for (int i = 0; i < lengthOfDigit; i++) {
+            digit += input.read();
+        }
+        int amountOfBits = Integer.parseInt(digit);
+        int amtOfFullBytes = amountOfBits/8;
+        int amtOfBitsLastByte = amountOfBits % 8;
+
+
+        Bits posibleCode = new Bits();
+        for (int i = 0; i < amtOfFullBytes; i++) {
+
+            Bits fullByte = new Bits(input.read(), 8);
+
+            for (int j = 7; j >= 0; j--) {
+                int newBit = fullByte.bitAt(j);
+                posibleCode.addBit(newBit);
+                if(bitsToCharMap.containsKey(posibleCode)){
+                    output.write(bitsToCharMap.get(posibleCode));
+                    posibleCode.reset();
+                }
+            }
+        }
+
+        Bits lastByte = new Bits(input.read(), amtOfBitsLastByte);
+        for (int i = amtOfBitsLastByte -1; i >= 0; i--) {
+            int newBit = lastByte.bitAt(i);
+            posibleCode.addBit(newBit);
+            if(bitsToCharMap.containsKey(posibleCode)){
+                output.write(bitsToCharMap.get(posibleCode));
+                posibleCode.reset();
+            }
+        }
+    }
+
+    private Map<Bits, Integer> readTable(@NotNull InputStream input) throws IOException {
+        Map<Bits, Integer> bitsToChar = new HashMap<>();
         int inputByte = input.read();
         while(inputByte != escapeChar){
-            int character;
-            if(inputByte < 0){
-                character = inputByte + 256;
-            }else {
-                character = inputByte;
-            }
+            int character = inputByte;
             int amountOfBits = input.read();
             int amtOfFullBytes = amountOfBits/8;
             int amtOfBitsLastByte = amountOfBits % 8;
@@ -174,44 +208,11 @@ public class Huffman implements Compressor {
                 }
             }
 
-            bitsToCharMap.put(bits, character);
+            bitsToChar.put(bits, character);
 
             inputByte = input.read();
         }
-
-        int lengthOfDigit = input.read();
-        String digit = "";
-        for (int i = 0; i < lengthOfDigit; i++) {
-            digit += input.read();
-        }
-        int amountOfBits = Integer.parseInt(digit);
-        int amtOfFullBytes = amountOfBits/8;
-        int amtOfBitsLastByte = amountOfBits % 8;
-
-        Bits posibleCode = new Bits();
-        for (int i = 0; i < amtOfFullBytes; i++) {
-
-            Bits fullByte = new Bits(input.read(), 8);
-
-            for (int j = 7; j >= 0; j--) {
-                int newBit = fullByte.bitAt(j);
-                posibleCode.addBit(newBit);
-                if(bitsToCharMap.containsKey(posibleCode)){
-                    output.write(bitsToCharMap.get(posibleCode));
-                    posibleCode.reset();
-                }
-            }
-        }
-
-        Bits fullByte = new Bits(input.read(), amtOfBitsLastByte);
-        for (int i = amtOfBitsLastByte -1; i >= 0; i--) {
-            int newBit = fullByte.bitAt(i);
-            posibleCode.addBit(newBit);
-            if(bitsToCharMap.containsKey(posibleCode)){
-                output.write(bitsToCharMap.get(posibleCode));
-                posibleCode.reset();
-            }
-        }
+        return bitsToChar;
     }
 
 
@@ -227,7 +228,7 @@ public class Huffman implements Compressor {
             this.right = right;
         }
 
-        public boolean isLeaf(){
+        boolean isLeaf(){
             return (left == null) && (right == null);
         }
 

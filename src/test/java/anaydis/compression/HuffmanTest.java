@@ -35,7 +35,6 @@ public class HuffmanTest {
         compressor.encode(is, output);
 
         byte[] byteArray = output.toByteArray();
-        String encoded = output.toString();
 
         InputStream newIs = new ByteArrayInputStream( byteArray);
         ByteArrayOutputStream newOutput = new ByteArrayOutputStream();
