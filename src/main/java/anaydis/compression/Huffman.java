@@ -29,9 +29,13 @@ public class Huffman implements Compressor {
         writeTable(codesInString, output);
         output.write(escapeChar);
 
-        //TODO amt of bits da muy grande y no se puede guardar
         int amtOfBits = amountOfBits(frequencyTable, codesInString);
-        output.write(amtOfBits);
+        String digits = amtOfBits + "";
+        output.write(digits.length());
+        char[] arrayOfDigits = digits.toCharArray();
+        for (int i = 0; i < arrayOfDigits.length; i++) {
+            output.write(Character.getNumericValue(arrayOfDigits[i]));
+        }
 
         input.reset();
         writeEncodedMessage(input, output, codesInString);
@@ -84,8 +88,6 @@ public class Huffman implements Compressor {
         output.write(currentByte.getIntRepresentation());
     }
 
-
-
     private int amountOfBits(Map<Integer, Integer> frequencyTable, Map<Integer, String> codesInString) {
         int sum = 0;
         for(Map.Entry<Integer, Integer> charAndFreq : frequencyTable.entrySet()) {
@@ -95,30 +97,6 @@ public class Huffman implements Compressor {
         }
         return sum;
     }
-
-
-
-//    private void writeTable(Map<Integer, Bits> codes, OutputStream output) throws IOException {
-//        for(Map.Entry<Integer, Bits> code : codes.entrySet()) {
-//            output.write(code.getKey());
-//            output.write(code.getValue().getCount());
-//            output.write(code.getValue().getIntRepresentation());
-//        }
-//    }
-
-//    private void buildBitsCode(Map<Integer, Bits> codes, Node node, Bits bits) {
-//        if(node.isLeaf()){
-//            codes.put(node.ch, bits);
-//        }
-//        else{
-//            Bits bitsCopy = new Bits(bits.getIntRepresentation(), bits.getCount());
-//            bitsCopy.addBit(1);
-//            buildBitsCode(codes, node.right, bitsCopy);
-//            bits.addBit(0);
-//            buildBitsCode(codes, node.left,  bits);
-//
-//        }
-//    }
 
     private void buildStringCode(Map<Integer, String> codes, Node node, String s) {
         if(node.isLeaf()){
@@ -201,7 +179,12 @@ public class Huffman implements Compressor {
             inputByte = input.read();
         }
 
-        int amountOfBits = input.read();
+        int lengthOfDigit = input.read();
+        String digit = "";
+        for (int i = 0; i < lengthOfDigit; i++) {
+            digit += input.read();
+        }
+        int amountOfBits = Integer.parseInt(digit);
         int amtOfFullBytes = amountOfBits/8;
         int amtOfBitsLastByte = amountOfBits % 8;
 
