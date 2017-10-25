@@ -80,6 +80,7 @@ public class BurrowsWheeler implements Compressor {
                 if(!isUsed[j] && listL.get(j) == nextChar ){
                     t[i] = j;
                     isUsed[j] = true;
+                    break;
                 }
             }
         }
