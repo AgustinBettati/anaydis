@@ -13,43 +13,34 @@ public class Bits {
         this.acum = 0;
         this.count = 0;
     }
-    protected Bits(int acum, int count) {
+    Bits(int acum, int count) {
         this.acum = acum;
         this.count = count;
     }
 
 
-    public void addBit(int value){
+    void addBit(int value){
         if(value != 0 && value != 1)
             throw new RuntimeException("Bit can only be 1 or 0");
 
-//        if(count >= 8){
-//            throw new RuntimeException("Byte is full");
-//        }
         acum = acum << 1 | value;
         count++;
     }
 
-    public int bitAt(int n){
-//        if(n > 8 || n < 0)
-//            throw new RuntimeException("Byte has only 8 bits");
-
+    int bitAt(int n){
         return ((acum >> n) & 1);
     }
 
-    public int getIntRepresentation(){
+    int getIntRepresentation(){
         return acum;
     }
 
-    public void reset(){
+    void reset(){
         acum = 0;
         count = 0;
     }
 
-    public int getCount() {
-        return count;
-    }
-    public boolean byteIsFull(){
+    boolean byteIsFull(){
         return count >= 8;
     }
 
@@ -58,6 +49,7 @@ public class Bits {
     }
 
 
+    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
     public boolean equals(Object other){
         Bits o = (Bits) other;
         return acum == o.acum && count == o.count;

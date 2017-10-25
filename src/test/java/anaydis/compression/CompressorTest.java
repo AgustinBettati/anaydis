@@ -46,6 +46,7 @@ public class CompressorTest {
     @Parameterized.Parameters(name = "Compressor {0}")
     public static Collection<Object[]> data(){
         return Arrays.asList(new Object[][] {
+                {new BurrowsWheeler(), "hola"},
                 {new RunLengthEncoding(), "Hooooolaaaaaaa" },
                 {new Huffman(), "Yo, Juan Gallo de Andrada, escribano de Cámara del Rey nuestro señor, de\n" +
                         "los que residen en su Consejo, certifico y doy fe que, habiendo visto por\n" +
