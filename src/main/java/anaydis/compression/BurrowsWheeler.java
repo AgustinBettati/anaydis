@@ -6,7 +6,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Agustin Bettati
@@ -16,12 +15,12 @@ public class BurrowsWheeler implements Compressor {
 
     @Override
     public void encode(@NotNull InputStream input, @NotNull OutputStream output) throws IOException {
-        String inputString = new BufferedReader(new InputStreamReader(input)).lines()
-                .parallel().collect(Collectors.joining("\n"));
+        byte[] inputArray = toByteArray(input);
+
 
         List<Rotation> rotations = new ArrayList<>();
-        for (int i = 0; i < inputString.length(); i++) {
-            rotations.add(new Rotation(inputString, i));
+        for (int i = 0; i < inputArray.length; i++) {
+            rotations.add(new Rotation(inputArray, i));
         }
 
         //TODO ver a que sort llamar
@@ -38,8 +37,21 @@ public class BurrowsWheeler implements Compressor {
 
         for (Rotation rotation: rotations
              ) {
-            output.write(rotation.charAt(inputString.length()-1));
+            output.write(rotation.byteAt(inputArray.length-1));
         }
+    }
+
+    private byte[] toByteArray(InputStream input) throws IOException {
+
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        int nRead;
+        byte[] data = new byte[16384];
+
+        while ((nRead = input.read(data, 0, data.length)) != -1) {
+            buffer.write(data, 0, nRead);
+        }
+        buffer.flush();
+        return buffer.toByteArray();
     }
 
     private int getFirstRotationIndex(List<Rotation> rotations) {
@@ -60,24 +72,24 @@ public class BurrowsWheeler implements Compressor {
         }
         int indexOfFirstChar = Integer.parseInt(digit);
 
-        List<Character> listL = new ArrayList<>();
+        List<Byte> listL = new ArrayList<>();
 
         int inputByte = input.read();
         while(inputByte != -1){
-            listL.add(((char) inputByte));
+            listL.add((byte)inputByte);
             inputByte = input.read();
         }
 
-        List<Character> listF = new ArrayList<>(listL);
+        List<Byte> listF = new ArrayList<>(listL);
         Collections.sort(listF);
 
         int[] t = new int[listL.size()];
         boolean[] isUsed = new boolean[listL.size()];
 
         for (int i = 0; i < listL.size(); i++) {
-            char nextChar = listF.get(i);
+            byte nextByte = listF.get(i);
             for (int j = 0; j < listL.size(); j++) {
-                if(!isUsed[j] && listL.get(j) == nextChar ){
+                if(!isUsed[j] && listL.get(j) == nextByte ){
                     t[i] = j;
                     isUsed[j] = true;
                     break;

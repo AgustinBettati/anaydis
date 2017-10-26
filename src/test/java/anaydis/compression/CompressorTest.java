@@ -45,10 +45,7 @@ public class CompressorTest {
 
     @Parameterized.Parameters(name = "Compressor {0}")
     public static Collection<Object[]> data(){
-        return Arrays.asList(new Object[][] {
-                {new BurrowsWheeler(), "holaa"},
-                {new RunLengthEncoding(), "Hooooolaaaaaaa" },
-                {new Huffman(), "Yo, Juan Gallo de Andrada, escribano de Cámara del Rey nuestro señor, de\n" +
+        String largeText = "Yo, Juan Gallo de Andrada, escribano de Cámara del Rey nuestro señor, de\n" +
                         "los que residen en su Consejo, certifico y doy fe que, habiendo visto por\n" +
                         "los señores dél un libro intitulado El ingenioso hidalgo de la Mancha,\n" +
                         "compuesto por Miguel de Cervantes Saavedra, tasaron cada pliego del dicho\n" +
@@ -58,7 +55,11 @@ public class CompressorTest {
                         "se pueda vender, y mandaron que esta tasa se ponga al principio del dicho\n" +
                         "libro, y no se pueda vender sin ella. Y, para que dello conste, di la\n" +
                         "presente en Valladolid, a veinte días del mes de deciembre de mil y\n" +
-                        "seiscientos y cuatro años."}
+                        "seiscientos y cuatro años.";
+        return Arrays.asList(new Object[][] {
+                {new BurrowsWheeler(),largeText },
+                {new RunLengthEncoding(), "Hooooolaaaaaaa" },
+                {new Huffman(), largeText}
         });
     }
 
