@@ -23,17 +23,11 @@ public class BurrowsWheeler implements Compressor {
             rotations.add(new Rotation(inputArray, i));
         }
 
-        //TODO ver a que sort llamar
         Collections.sort(rotations);
 
         int firstRotationIndex = getFirstRotationIndex(rotations);
 
-        String digits = firstRotationIndex + "";
-        output.write(digits.length());
-        char[] arrayOfDigits = digits.toCharArray();
-        for (char arrayOfDigit : arrayOfDigits) {
-            output.write(Character.getNumericValue(arrayOfDigit));
-        }
+        writeNumber(firstRotationIndex, output);
 
         for (Rotation rotation: rotations
              ) {
@@ -63,14 +57,20 @@ public class BurrowsWheeler implements Compressor {
         return -1;
     }
 
+    private void writeNumber(int firstRotationIndex, OutputStream output) throws IOException {
+        String digits = firstRotationIndex + "";
+        output.write(digits.length());
+        char[] arrayOfDigits = digits.toCharArray();
+        for (char arrayOfDigit : arrayOfDigits) {
+            output.write(Character.getNumericValue(arrayOfDigit));
+        }
+    }
+
+
     @Override
     public void decode(@NotNull InputStream input, @NotNull OutputStream output) throws IOException {
-        int lengthOfDigit = input.read();
-        String digit = "";
-        for (int i = 0; i < lengthOfDigit; i++) {
-            digit += input.read();
-        }
-        int indexOfFirstChar = Integer.parseInt(digit);
+
+        int indexOfFirstChar = readNumber(input);
 
         List<Byte> listL = new ArrayList<>();
 
@@ -103,5 +103,14 @@ public class BurrowsWheeler implements Compressor {
             currentIndex = t[currentIndex];
         }
 
+    }
+
+    private int readNumber(InputStream input) throws IOException {
+        int lengthOfDigit = input.read();
+        String digit = "";
+        for (int i = 0; i < lengthOfDigit; i++) {
+            digit += input.read();
+        }
+        return Integer.parseInt(digit);
     }
 }

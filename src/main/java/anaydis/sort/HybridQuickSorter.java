@@ -29,7 +29,7 @@ public class HybridQuickSorter extends AbstractQuickSorter {
         sort(0, list.size() -1,comparator, list );
     }
 
-    private <T> void sort(int low, int high,@NotNull Comparator<T> comparator, @NotNull List<T> list){
+    public <T> void sort(int low, int high,@NotNull Comparator<T> comparator, @NotNull List<T> list){
         if(high - low + 1 <= M) cut.sort(low, high, comparator, list);
         else {
             int i = partition(low, high, comparator, list);

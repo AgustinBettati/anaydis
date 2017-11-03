@@ -22,7 +22,7 @@ public class Rotation implements Comparable<Rotation>{
         if(position >= raw.length){
             throw new RuntimeException("index out of bounds in charAt");
         }
-        return raw[Math.abs(rotation + position) % raw.length];
+        return raw[(rotation + position) % raw.length];
     }
 
     public int getRotationIndex() {
